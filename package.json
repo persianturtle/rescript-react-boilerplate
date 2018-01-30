@@ -1,0 +1,25 @@
+{
+  "name": "reason-app-shell-starter-kit",
+  "version": "0.1.0",
+  "homepage": "https://persianturtle.github.io/reason-app-shell-starter-kit/build",
+  "private": true,
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "reason-scripts": "0.8.0"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start": "npm run watch-css & react-scripts start",
+    "build": "npm run build-css & react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "prepare": "npm link bs-platform"
+  },
+  "devDependencies": {
+    "bs-jest": "^0.3.2",
+    "node-sass-chokidar": "0.0.3",
+    "reason-react": "^0.3.1"
+  }
+}
