@@ -21,7 +21,9 @@ type position = {
 type nav = {
   isOpen: bool,
   isSwiping: ref(bool),
-  clientX: position
+  clientX: position,
+  width: ref(float),
+  ref: ref(option(Dom.element))
 };
 
 type action =
@@ -53,7 +55,9 @@ let make = _children => {
       clientX: {
         initial: 0.0,
         current: 0.0
-      }
+      },
+      width: ref(0.0),
+      ref: ref(None)
     }
   },
   reducer: (action, state) =>
@@ -75,13 +79,16 @@ let make = _children => {
       if (state.nav.isOpen) {
         state.nav.isSwiping := true;
       };
+      let throttledClientX =
+        state.nav.clientX.current > state.nav.width^ ?
+          clientX : state.nav.width^;
       ReasonReact.Update({
         ...state,
         nav: {
           ...state.nav,
           clientX: {
-            initial: clientX,
-            current: clientX
+            initial: throttledClientX,
+            current: throttledClientX
           }
         }
       });
@@ -102,7 +109,7 @@ let make = _children => {
       }
     | TouchEnd(clientX) =>
       state.nav.isSwiping := false;
-      if (clientX -. state.nav.clientX.initial > (-150.0)) {
+      if (clientX -. state.nav.clientX.initial > state.nav.width^ /. (-2.0)) {
         ReasonReact.Update(state);
       } else {
         ReasonReact.UpdateWithSideEffects(
@@ -192,6 +199,18 @@ let make = _children => {
               ()
             ) :
             ReactDOMRe.Style.make()
+        )
+        ref=(
+          self.handle((ref, self) => {
+            self.state.nav.ref := Js.Nullable.to_opt(ref);
+            self.state.nav.width :=
+              (
+                switch self.state.nav.ref^ {
+                | None => 0.0
+                | Some(r) => ReactDOMRe.domElementToObj(r)##clientWidth
+                }
+              );
+          })
         )>
         <header>
           <a onClick=(_event => self.send(ToggleMenu(false)))>

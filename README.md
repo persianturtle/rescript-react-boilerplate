@@ -1,6 +1,10 @@
 # App Shell starter kit
 
 <p>This is a simple App Shell starter kit that you can use to get started building your <a target="_blank" href="https://developers.google.com/web/progressive-web-apps/">PWA</a> with the power of <a target="_blank" href="https://reasonml.github.io">Reason</a> and <a target="_blank" href="https://reasonml.github.io/reason-react/">ReasonReact</a>.</p>
+
+# Demo
+
+<p>Check out the <a target="_blank" href="https://persianturtle.github.io/reason-app-shell-starter-kit/build/">demo here</a>.</p>
 <img src="https://s3.amazonaws.com/persianturtle/demo.gif">
 <p>Read the <a target="_blank" href="">tutorial for this App Shell starter kit on Medium</a>.</p>
 <p>What's inside?</p>
@@ -17,3 +21,6 @@
   <li><a target="_blank" href="https://flowdash.co/">Flow Dashboard</a></li>
   <li><a target="_blank" href="https://material.angular.io/components/categories">Angular Material</a></li>
 </ul>
+
+# Installation
+
