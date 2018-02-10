@@ -1,5 +1,7 @@
 [%bs.raw {|require('./app.css')|}];
 
+[@bs.val] [@bs.scope "performance"] external now : unit => float = "";
+
 type route =
   | Home
   | Page1
@@ -13,17 +15,11 @@ type user = {
   email: string
 };
 
-type position = {
-  initial: float,
-  current: float
-};
-
 type nav = {
   isOpen: bool,
   isSwiping: ref(bool),
-  clientX: position,
-  width: ref(float),
-  ref: ref(option(Dom.element))
+  position: list((float, float)),
+  width: ref(float)
 };
 
 type action =
@@ -52,12 +48,8 @@ let make = _children => {
     nav: {
       isOpen: false,
       isSwiping: ref(false),
-      clientX: {
-        initial: 0.0,
-        current: 0.0
-      },
-      width: ref(0.0),
-      ref: ref(None)
+      position: [(0.0, 0.0)],
+      width: ref(0.0)
     }
   },
   reducer: (action, state) =>
@@ -79,29 +71,23 @@ let make = _children => {
       if (state.nav.isOpen) {
         state.nav.isSwiping := true;
       };
-      let throttledClientX =
-        state.nav.clientX.current > state.nav.width^ ?
-          clientX : state.nav.width^;
+      let x = clientX < state.nav.width^ ? clientX : state.nav.width^;
+      let t = now();
       ReasonReact.Update({
         ...state,
         nav: {
           ...state.nav,
-          clientX: {
-            initial: throttledClientX,
-            current: throttledClientX
-          }
+          position: [(x, t)]
         }
       });
     | TouchMove(clientX) =>
       if (state.nav.isSwiping^) {
+        let t = now();
         ReasonReact.Update({
           ...state,
           nav: {
             ...state.nav,
-            clientX: {
-              ...state.nav.clientX,
-              current: clientX
-            }
+            position: [(clientX, t), ...state.nav.position]
           }
         });
       } else {
@@ -109,13 +95,30 @@ let make = _children => {
       }
     | TouchEnd(clientX) =>
       state.nav.isSwiping := false;
-      if (clientX -. state.nav.clientX.initial > state.nav.width^ /. (-2.0)) {
-        ReasonReact.Update(state);
-      } else {
+      let (x, _t) = List.hd(List.rev(state.nav.position));
+      let velocity =
+        switch state.nav.position {
+        | [] => 0.0
+        | [_] => 0.0
+        | [(x', t'), (x, t), ..._] =>
+          if (x < state.nav.width^) {
+            (x' -. x) /. (t' -. t);
+          } else {
+            0.0;
+          }
+        };
+      if (velocity < (-0.3)) {
         ReasonReact.UpdateWithSideEffects(
           state,
           (self => self.send(ToggleMenu(false)))
         );
+      } else if (clientX -. x < state.nav.width^ /. (-2.0)) {
+        ReasonReact.UpdateWithSideEffects(
+          state,
+          (self => self.send(ToggleMenu(false)))
+        );
+      } else {
+        ReasonReact.Update(state);
       };
     },
   subscriptions: self => [
@@ -134,8 +137,8 @@ let make = _children => {
   ],
   render: self => {
     let (route, title) = self.state.routeWithTitle;
-    let swipe =
-      self.state.nav.clientX.current -. self.state.nav.clientX.initial;
+    let (x, _t) = List.hd(List.rev(self.state.nav.position));
+    let (x', _t') = List.hd(self.state.nav.position);
     <div
       className=("App" ++ (self.state.nav.isOpen ? " overlay" : ""))
       onClick=(_event => self.send(ToggleMenu(false)))
@@ -193,7 +196,7 @@ let make = _children => {
             ReactDOMRe.Style.make(
               ~transform=
                 "translateX("
-                ++ string_of_float(swipe > 0.0 ? 0.0 : swipe)
+                ++ string_of_float(x' -. x > 0.0 ? 0.0 : x' -. x)
                 ++ "px)",
               ~transition="none",
               ()
@@ -201,16 +204,15 @@ let make = _children => {
             ReactDOMRe.Style.make()
         )
         ref=(
-          self.handle((ref, self) => {
-            self.state.nav.ref := Js.Nullable.to_opt(ref);
+          self.handle((ref, self) =>
             self.state.nav.width :=
               (
-                switch self.state.nav.ref^ {
+                switch (Js.Nullable.to_opt(ref)) {
                 | None => 0.0
                 | Some(r) => ReactDOMRe.domElementToObj(r)##clientWidth
                 }
-              );
-          })
+              )
+          )
         )>
         <header>
           <a onClick=(_event => self.send(ToggleMenu(false)))>
