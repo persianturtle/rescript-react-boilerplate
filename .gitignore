@@ -6,9 +6,6 @@
 # testing
 /coverage
 
-# build
-src/**/*.css
-
 # bucklescript
 /lib
 /types
