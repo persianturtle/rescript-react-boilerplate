@@ -1,5 +1,7 @@
 [%bs.raw {|require('./app.css')|}];
 
+[@bs.val] [@bs.scope "document"] external documentElement : Dom.element = "";
+
 [@bs.val] [@bs.scope "performance"] external now : unit => float = "";
 
 type route =
@@ -60,13 +62,25 @@ let make = _children => {
         (self => self.send(ToggleMenu(false)))
       )
     | ToggleMenu(isOpen) =>
-      ReasonReact.Update({
-        ...state,
-        nav: {
-          ...state.nav,
-          isOpen
-        }
-      })
+      ReasonReact.UpdateWithSideEffects(
+        {
+          ...state,
+          nav: {
+            ...state.nav,
+            isOpen
+          }
+        },
+        (
+          _self =>
+            if (isOpen) {
+              /* [%bs.raw {| document.documentElement.style.overflow = "hidden"|}]; */
+              ReactDOMRe.domElementToObj(documentElement)##style##overflow#="hidden";
+            } else {
+              /* [%bs.raw {| document.documentElement.style.overflow = ""|}]; */
+              ReactDOMRe.domElementToObj(documentElement)##style##overflow#="";
+            }
+        )
+      )
     | TouchStart(clientX) =>
       if (state.nav.isOpen) {
         state.nav.isSwiping := true;
