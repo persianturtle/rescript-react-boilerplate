@@ -246,12 +246,12 @@ let make = _children => {
           <p> (ReasonReact.stringToElement(self.state.user.email)) </p>
         </header>
         <label> (ReasonReact.stringToElement("home")) </label>
-        <ul> <li> <Link route="/" label="Home" /> </li> </ul>
+        <ul> <li> <Link href="/" label="Home" /> </li> </ul>
         <label> (ReasonReact.stringToElement("pages")) </label>
         <ul>
-          <li> <Link route="/page1" label="Page1" /> </li>
-          <li> <Link route="/page2" label="Page2" /> </li>
-          <li> <Link route="/page3" label="Page3" /> </li>
+          <li> <Link href="/page1" label="Page1" /> </li>
+          <li> <Link href="/page2" label="Page2" /> </li>
+          <li> <Link href="/page3" label="Page3" /> </li>
         </ul>
       </nav>
       <main>
