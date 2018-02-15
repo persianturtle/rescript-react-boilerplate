@@ -89,23 +89,20 @@ let make = _children => {
       if (state.nav.isOpen) {
         state.nav.isSwiping := true;
       };
-      let x = clientX < state.nav.width^ ? clientX : state.nav.width^;
-      let t = now();
       ReasonReact.Update({
         ...state,
         nav: {
           ...state.nav,
-          position: [(x, t)]
+          position: [(clientX, now())]
         }
       });
     | TouchMove(clientX) =>
       if (state.nav.isSwiping^) {
-        let t = now();
         ReasonReact.Update({
           ...state,
           nav: {
             ...state.nav,
-            position: [(clientX, t), ...state.nav.position]
+            position: [(clientX, now()), ...state.nav.position]
           }
         });
       } else {
@@ -113,28 +110,28 @@ let make = _children => {
       }
     | TouchEnd(clientX) =>
       state.nav.isSwiping := false;
-      let (x, _t) = List.hd(List.rev(state.nav.position));
       let velocity =
         switch state.nav.position {
         | [] => 0.0
         | [_] => 0.0
-        | [(x', t'), (x, t), ..._] =>
-          if (x < state.nav.width^) {
-            (x' -. x) /. (t' -. t);
-          } else {
-            0.0;
-          }
+        | [(x', t'), (x, t), ..._] => (x' -. x) /. (t' -. t)
         };
       if (velocity < (-0.3)) {
-        ReasonReact.UpdateWithSideEffects(
-          state,
-          (self => self.send(ToggleMenu(false)))
-        );
-      } else if (clientX -. x < state.nav.width^ /. (-2.0)) {
-        ReasonReact.UpdateWithSideEffects(
-          state,
-          (self => self.send(ToggleMenu(false)))
-        );
+        ReasonReact.Update({
+          ...state,
+          nav: {
+            ...state.nav,
+            isOpen: false
+          }
+        });
+      } else if (clientX < state.nav.width^ /. 2.0) {
+        ReasonReact.Update({
+          ...state,
+          nav: {
+            ...state.nav,
+            isOpen: false
+          }
+        });
       } else {
         ReasonReact.Update(state);
       };
@@ -215,7 +212,7 @@ let make = _children => {
               ~transform=
                 "translateX("
                 ++ string_of_float(x' -. x > 0.0 ? 0.0 : x' -. x)
-                ++ "px)",
+                ++ "0px)",
               ~transition="none",
               ()
             ) :
