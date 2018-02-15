@@ -1,3 +1,7 @@
+# Tutorial
+
+[Tutorial on Medium.com](https://medium.com/@RRafatpanah/a-reasonml-tutorial-building-an-app-shell-dd7cc617d0c5)
+
 # App Shell starter kit
 
 <p>This is a simple App Shell starter kit that you can use to get started building your <a target="_blank" href="https://developers.google.com/web/progressive-web-apps/">PWA</a> with the power of <a target="_blank" href="https://reasonml.github.io">Reason</a> and <a target="_blank" href="https://reasonml.github.io/reason-react/">ReasonReact</a>.</p>
@@ -24,3 +28,10 @@
 
 # Installation
 
+Note: this project was initialized with Create React App.
+
+1. Clone the repo
+2. npm install && npm start
+3. Customize what you need
+
+Read the [Medium article](https://medium.com/@RRafatpanah/a-reasonml-tutorial-building-an-app-shell-dd7cc617d0c5) for the full tutorial.
