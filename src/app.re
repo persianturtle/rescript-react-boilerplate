@@ -57,10 +57,14 @@ let make = _children => {
   reducer: (action, state) =>
     switch action {
     | Navigate(routeWithTitle) =>
-      ReasonReact.UpdateWithSideEffects(
-        {...state, routeWithTitle},
-        (self => self.send(ToggleMenu(false)))
-      )
+      ReasonReact.Update({
+        ...state,
+        routeWithTitle,
+        nav: {
+          ...state.nav,
+          isOpen: false
+        }
+      })
     | ToggleMenu(isOpen) =>
       ReasonReact.UpdateWithSideEffects(
         {
