@@ -1,89 +1,76 @@
-[%bs.raw {|require('./app.css')|}];
-
-[@bs.val] [@bs.scope "document"] external documentElement : Dom.element = "";
+[%bs.raw {|require('../../../src/App.scss')|}];
 
 [@bs.val] [@bs.scope "performance"] external now : unit => float = "";
 
-type route =
-  | Home
-  | Page1
-  | Page2
-  | Page3;
-
-type routeWithTitle = (route, string);
-
 type user = {
   name: string,
-  email: string
+  email: string,
 };
 
 type nav = {
   isOpen: bool,
   isSwiping: ref(bool),
   position: list((float, float)),
-  width: ref(float)
+  width: ref(float),
 };
 
 type action =
-  | Navigate(routeWithTitle)
   | ToggleMenu(bool)
   | TouchStart(float)
   | TouchMove(float)
   | TouchEnd(float);
 
 type state = {
-  routeWithTitle,
   user,
-  nav
+  nav,
 };
 
 let component = ReasonReact.reducerComponent("App");
 
-let make = _children => {
+let make = (~currentRoute, _children) => {
   ...component,
   initialState: () => {
-    routeWithTitle: (Home, "Home"),
     user: {
       name: "Person Name",
-      email: "person@email.com"
+      email: "person@email.com",
     },
     nav: {
       isOpen: false,
       isSwiping: ref(false),
       position: [(0.0, 0.0)],
-      width: ref(0.0)
-    }
+      width: ref(0.0),
+    },
+  },
+  willReceiveProps: self => {
+    ...self.state,
+    nav: {
+      ...self.state.nav,
+      isOpen: false,
+    },
   },
   reducer: (action, state) =>
-    switch action {
-    | Navigate(routeWithTitle) =>
-      ReasonReact.Update({
-        ...state,
-        routeWithTitle,
-        nav: {
-          ...state.nav,
-          isOpen: false
-        }
-      })
+    switch (action) {
     | ToggleMenu(isOpen) =>
       ReasonReact.UpdateWithSideEffects(
         {
           ...state,
           nav: {
             ...state.nav,
-            isOpen
-          }
+            isOpen,
+          },
         },
         (
           _self =>
             if (isOpen) {
-              /* [%bs.raw {| document.documentElement.style.overflow = "hidden"|}]; */
-              ReactDOMRe.domElementToObj(documentElement)##style##overflow#="hidden";
+              %bs.raw
+              {| document.documentElement.style.overflow = "hidden"|};
+              /* ReactDOMRe.domElementToObj(documentElement)##style##overflow#="hidden"; */
             } else {
-              /* [%bs.raw {| document.documentElement.style.overflow = ""|}]; */
-              ReactDOMRe.domElementToObj(documentElement)##style##overflow#="";
+              %bs.raw
+              {| document.documentElement.style.overflow = ""|};
+              /* ReactDOMRe.domElementToObj(documentElement)##style##overflow#=""; */
             }
-        )
+        ),
       )
     | TouchStart(clientX) =>
       if (state.nav.isOpen) {
@@ -93,8 +80,8 @@ let make = _children => {
         ...state,
         nav: {
           ...state.nav,
-          position: [(clientX, now())]
-        }
+          position: [(clientX, now())],
+        },
       });
     | TouchMove(clientX) =>
       if (state.nav.isSwiping^) {
@@ -102,8 +89,8 @@ let make = _children => {
           ...state,
           nav: {
             ...state.nav,
-            position: [(clientX, now()), ...state.nav.position]
-          }
+            position: [(clientX, now()), ...state.nav.position],
+          },
         });
       } else {
         ReasonReact.NoUpdate;
@@ -111,7 +98,7 @@ let make = _children => {
     | TouchEnd(clientX) =>
       state.nav.isSwiping := false;
       let velocity =
-        switch state.nav.position {
+        switch (state.nav.position) {
         | [] => 0.0
         | [_] => 0.0
         | [(x', t'), (x, t), ..._] => (x' -. x) /. (t' -. t)
@@ -121,37 +108,22 @@ let make = _children => {
           ...state,
           nav: {
             ...state.nav,
-            isOpen: false
-          }
+            isOpen: false,
+          },
         });
       } else if (clientX < state.nav.width^ /. 2.0) {
         ReasonReact.Update({
           ...state,
           nav: {
             ...state.nav,
-            isOpen: false
-          }
+            isOpen: false,
+          },
         });
       } else {
         ReasonReact.Update(state);
       };
     },
-  subscriptions: self => [
-    Sub(
-      () =>
-        ReasonReact.Router.watchUrl(url =>
-          switch url.path {
-          | ["page1"] => self.send(Navigate((Page1, "Page1")))
-          | ["page2"] => self.send(Navigate((Page2, "Page2")))
-          | ["page3"] => self.send(Navigate((Page3, "Page3")))
-          | _ => self.send(Navigate((Home, "Home")))
-          }
-        ),
-      ReasonReact.Router.unwatchUrl
-    )
-  ],
   render: self => {
-    let (route, title) = self.state.routeWithTitle;
     let (x, _t) = List.hd(List.rev(self.state.nav.position));
     let (x', _t') = List.hd(self.state.nav.position);
     <div
@@ -161,24 +133,24 @@ let make = _children => {
         event =>
           self.send(
             TouchStart(
-              TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX
-            )
+              Utils.TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX,
+            ),
           )
       )
       onTouchMove=(
         event =>
           self.send(
             TouchMove(
-              TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX
-            )
+              Utils.TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX,
+            ),
           )
       )
       onTouchEnd=(
         event =>
           self.send(
             TouchEnd(
-              TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX
-            )
+              Utils.TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX,
+            ),
           )
       )>
       <header>
@@ -201,7 +173,7 @@ let make = _children => {
             />
           </svg>
         </a>
-        <h1> (ReasonReact.stringToElement(title)) </h1>
+        <h1> (ReasonReact.string(Config.routeToTitle(currentRoute))) </h1>
       </header>
       <nav
         className=(self.state.nav.isOpen ? "active" : "")
@@ -214,7 +186,7 @@ let make = _children => {
                 ++ string_of_float(x' -. x > 0.0 ? 0.0 : x' -. x)
                 ++ "0px)",
               ~transition="none",
-              ()
+              (),
             ) :
             ReactDOMRe.Style.make()
         )
@@ -222,7 +194,7 @@ let make = _children => {
           self.handle((ref, self) =>
             self.state.nav.width :=
               (
-                switch (Js.Nullable.to_opt(ref)) {
+                switch (Js.Nullable.toOption(ref)) {
                 | None => 0.0
                 | Some(r) => ReactDOMRe.domElementToObj(r)##clientWidth
                 }
@@ -236,35 +208,48 @@ let make = _children => {
                 d="M12.586 27.414l-10-10c-0.781-0.781-0.781-2.047 0-2.828l10-10c0.781-0.781 2.047-0.781 2.828 0s0.781 2.047 0 2.828l-6.586 6.586h19.172c1.105 0 2 0.895 2 2s-0.895 2-2 2h-19.172l6.586 6.586c0.39 0.39 0.586 0.902 0.586 1.414s-0.195 1.024-0.586 1.414c-0.781 0.781-2.047 0.781-2.828 0z"
               />
             </svg>
-            (ReasonReact.stringToElement(title))
+            (ReasonReact.string(Config.routeToTitle(currentRoute)))
           </a>
           <svg viewBox="0 0 32 32">
             <path
               d="M8 10c0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8s-8-3.582-8-8zM24 20h-16c-4.418 0-8 3.582-8 8v2h32v-2c0-4.418-3.582-8-8-8z"
             />
           </svg>
-          <p> (ReasonReact.stringToElement(self.state.user.name)) </p>
-          <p> (ReasonReact.stringToElement(self.state.user.email)) </p>
+          <p> (ReasonReact.string(self.state.user.name)) </p>
+          <p> (ReasonReact.string(self.state.user.email)) </p>
         </header>
-        <label> (ReasonReact.stringToElement("home")) </label>
-        <ul> <li> <Link href="/" label="Home" /> </li> </ul>
-        <label> (ReasonReact.stringToElement("pages")) </label>
+        <label> (ReasonReact.string("home")) </label>
         <ul>
-          <li> <Link href="/page1" label="Page1" /> </li>
-          <li> <Link href="/page2" label="Page2" /> </li>
-          <li> <Link href="/page3" label="Page3" /> </li>
+          <li>
+            <Router.NavLink route=Home>
+              (ReasonReact.string("Home"))
+            </Router.NavLink>
+          </li>
+        </ul>
+        <label> (ReasonReact.string("pages")) </label>
+        <ul>
+          <li>
+            <Router.NavLink route=Page1>
+              (ReasonReact.string("Page1"))
+            </Router.NavLink>
+          </li>
+          <li>
+            <Router.NavLink route=Page2>
+              (ReasonReact.string("Page2"))
+            </Router.NavLink>
+          </li>
+          <li>
+            <Router.NavLink route=Page3>
+              (ReasonReact.string("Page3"))
+            </Router.NavLink>
+          </li>
         </ul>
       </nav>
       <main>
-        (
-          switch route {
-          | Home => <Home />
-          | Page1 => <Page1 />
-          | Page2 => <Page2 />
-          | Page3 => <Page3 />
-          }
-        )
+        <ReactTransitionGroup.TransitionGroup>
+          (Config.routeToComponent(currentRoute))
+        </ReactTransitionGroup.TransitionGroup>
       </main>
     </div>;
-  }
+  },
 };

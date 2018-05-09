@@ -4,6 +4,6 @@ let make = _children => {
   ...component,
   render: _self =>
     <div className="Page2">
-      <h1> (ReasonReact.stringToElement("Page2")) </h1>
+      <h1> (ReasonReact.string("Page2")) </h1>
     </div>
 };

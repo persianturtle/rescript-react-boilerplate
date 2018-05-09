@@ -1,25 +1,31 @@
 {
-  "name": "reason-app-shell-starter-kit",
+  "name": "rugapp",
   "version": "0.1.0",
-  "homepage": "https://persianturtle.github.io/reason-app-shell-starter-kit/build",
-  "private": true,
-  "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "reason-scripts": "0.8.0"
-  },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "npm run watch-css & react-scripts start",
-    "build": "npm run build-css & react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "prepare": "npm link bs-platform"
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack -w",
+    "webpack:production": "NODE_ENV=production webpack"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "re-classnames": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-transition-group": "latest",
+    "reason-react": "latest"
   },
   "devDependencies": {
-    "bs-jest": "^0.3.2",
-    "node-sass-chokidar": "0.0.3",
-    "reason-react": "^0.3.1"
+    "bs-platform": "latest",
+    "css-loader": "latest",
+    "url-loader": "latest",
+    "node-sass": "latest",
+    "sass-loader": "latest",
+    "style-loader": "latest",
+    "webpack": "latest",
+    "webpack-cli": "latest"
   }
 }

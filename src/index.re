@@ -1,8 +1,8 @@
-[%bs.raw {|require('./index.css')|}];
+[%bs.raw {|require('../../../src/Index.scss')|}];
 
-[@bs.module "./registerServiceWorker"]
-external register_service_worker : unit => unit = "default";
-
-ReactDOMRe.renderToElementWithId(<App />, "root");
-
-register_service_worker();
+ReactDOMRe.renderToElementWithId(
+  <Router.WithRouter>
+    ...((~currentRoute) => <App currentRoute />)
+  </Router.WithRouter>,
+  "root",
+);
