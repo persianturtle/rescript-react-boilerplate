@@ -104,21 +104,15 @@ let make = (~currentRoute, _children) => {
         | [(x', t'), (x, t), ..._] => (x' -. x) /. (t' -. t)
         };
       if (velocity < (-0.3)) {
-        ReasonReact.Update({
-          ...state,
-          nav: {
-            ...state.nav,
-            isOpen: false,
-          },
-        });
+        ReasonReact.UpdateWithSideEffects(
+          state,
+          (self => self.send(ToggleMenu(false))),
+        );
       } else if (clientX < state.nav.width^ /. 2.0) {
-        ReasonReact.Update({
-          ...state,
-          nav: {
-            ...state.nav,
-            isOpen: false,
-          },
-        });
+        ReasonReact.UpdateWithSideEffects(
+          state,
+          (self => self.send(ToggleMenu(false))),
+        );
       } else {
         ReasonReact.Update(state);
       };
