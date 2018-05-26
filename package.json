@@ -1,15 +1,16 @@
 {
-  "name": "rugapp",
-  "version": "0.1.0",
+  "name": "app-shell-starter-kit",
+  "version": "1.0.0",
   "scripts": {
-    "build": "bsb -make-world",
-    "start": "bsb -make-world -w",
-    "clean": "bsb -clean-world",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack -w",
-    "webpack:production": "NODE_ENV=production webpack"
+    "start": "npm-run-all --parallel start:*",
+    "start:bsb": "bsb -clean-world -make-world -w",
+    "start:webpack": "webpack-dev-server",
+    "build": "npm-run-all build:*",
+    "build:bsb": "bsb -clean-world -make-world",
+    "build:webpack": "NODE_ENV=production webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
     "re-classnames": "latest",
@@ -21,10 +22,15 @@
   "devDependencies": {
     "bs-platform": "latest",
     "css-loader": "latest",
-    "url-loader": "latest",
     "node-sass": "latest",
     "sass-loader": "latest",
     "style-loader": "latest",
+    "workbox-webpack-plugin": "latest",
+    "html-webpack-plugin": "latest",
+    "clean-webpack-plugin": "latest",
+    "webpack-dev-server": "latest",
+    "npm-run-all": "latest",
+    "url-loader": "latest",
     "webpack": "latest",
     "webpack-cli": "latest"
   }

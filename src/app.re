@@ -14,16 +14,16 @@ type nav = {
   width: ref(float),
 };
 
+type state = {
+  user,
+  nav,
+};
+
 type action =
   | ToggleMenu(bool)
   | TouchStart(float)
   | TouchMove(float)
   | TouchEnd(float);
-
-type state = {
-  user,
-  nav,
-};
 
 let component = ReasonReact.reducerComponent("App");
 

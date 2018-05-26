@@ -17,6 +17,12 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
-    <script src="index.js"></script>
-  </body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+  <script type="text/javascript" src="main.716b483eba51d16df977.js"></script></body>
 </html>

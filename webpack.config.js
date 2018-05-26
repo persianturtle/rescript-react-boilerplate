@@ -1,13 +1,14 @@
 const path = require("path");
-const exec = require("child_process").exec;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = {
   entry: "./lib/es6/src/Index.bs.js",
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   output: {
     path: path.join(__dirname, "build/"),
-    publicPath: path.join(__dirname, "build/"),
-    filename: "index.js"
+    filename: "[name].[chunkhash].js"
   },
   module: {
     rules: [
@@ -16,15 +17,14 @@ module.exports = {
     ]
   },
   plugins: [
-    {
-      apply: compiler => {
-        compiler.hooks.afterEmit.tap("AfterEmitPlugin", compilation => {
-          exec("cp -r ./src/index.html ./build", (err, stdout, stderr) => {
-            if (stdout) process.stdout.write(stdout);
-            if (stderr) process.stderr.write(stderr);
-          });
-        });
-      }
-    }
+    new HtmlWebpackPlugin({
+      template: "./src/index.html"
+    }),
+    new WorkboxPlugin.InjectManifest({
+      swSrc: "./src/sw.js"
+    }),
+    new CleanWebpackPlugin(["build"], {
+      watch: true
+    })
   ]
 };
