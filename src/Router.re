@@ -3,31 +3,27 @@ module WithRouter = {
   type action =
     | ChangeUrl(Config.routes);
   let component = ReasonReact.reducerComponent("WithRouter");
-  let make:
-    ((~currentRoute: Config.routes) => ReasonReact.reactElement) =>
-    ReasonReact.component(state, _, action) =
-    children => {
-      ...component,
-      initialState: () => {
-        currentRoute:
-          ReasonReact.Router.dangerouslyGetInitialUrl() |> Config.urlToRoute,
+  let make = children => {
+    ...component,
+    initialState: () => {
+      currentRoute:
+        ReasonReact.Router.dangerouslyGetInitialUrl() |> Config.urlToRoute,
+    },
+    reducer: (action, _state) =>
+      switch (action) {
+      | ChangeUrl(route) => ReasonReact.Update({currentRoute: route})
       },
-      reducer: (action, _state) =>
-        switch (action) {
-        | ChangeUrl(route) => ReasonReact.Update({currentRoute: route})
-        },
-      subscriptions: ({send}) => [
-        Sub(
-          () =>
-            ReasonReact.Router.watchUrl(url => {
-              send(ChangeUrl(url |> Config.urlToRoute))
-            }
-            ),
-          ReasonReact.Router.unwatchUrl,
-        ),
-      ],
-      render: ({state}) => children(~currentRoute=state.currentRoute),
-    };
+    subscriptions: ({send}) => [
+      Sub(
+        () =>
+          ReasonReact.Router.watchUrl(url =>
+            send(ChangeUrl(url |> Config.urlToRoute))
+          ),
+        ReasonReact.Router.unwatchUrl,
+      ),
+    ],
+    render: ({state}) => children(~currentRoute=state.currentRoute),
+  };
 };
 
 module Link = {
