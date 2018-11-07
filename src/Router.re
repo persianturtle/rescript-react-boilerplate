@@ -1,74 +1,85 @@
+type route = {
+  href: string,
+  title: string,
+  component: ReasonReact.reactElement,
+};
+
+let routes = [
+  {href: "/", title: "Home", component: <Home />},
+  {href: "/page1", title: "Page1", component: <Page1 />},
+  {href: "/page2", title: "Page2", component: <Page2 />},
+  {href: "/page3", title: "Page3", component: <Page3 />},
+];
+
+let hrefToPath = href =>
+  Js.String.replaceByRe([%bs.re "/(^\\/)|(\\/$)/"], "", href)
+  |> Js.String.split("/")
+  |> Belt.List.fromArray;
+
+let urlToRoute = (url: ReasonReact.Router.url) =>
+  switch (
+    Belt.List.getBy(routes, route => url.path == hrefToPath(route.href))
+  ) {
+  | None => Belt.List.headExn(routes)
+  | Some(route) => route
+  };
+
 module WithRouter = {
-  type state = {currentRoute: Config.routes};
+  type state = route;
   type action =
-    | ChangeUrl(Config.routes);
+    | ChangeRoute(route);
   let component = ReasonReact.reducerComponent("WithRouter");
   let make = children => {
     ...component,
-    initialState: () => {
-      currentRoute:
-        ReasonReact.Router.dangerouslyGetInitialUrl() |> Config.urlToRoute,
+    didMount: self => {
+      let watcherID =
+        ReasonReact.Router.watchUrl(url =>
+          self.send(ChangeRoute(urlToRoute(url)))
+        );
+      ();
+      self.onUnmount(() => ReasonReact.Router.unwatchUrl(watcherID));
     },
+    initialState: () =>
+      urlToRoute(ReasonReact.Router.dangerouslyGetInitialUrl()),
     reducer: (action, _state) =>
       switch (action) {
-      | ChangeUrl(route) => ReasonReact.Update({currentRoute: route})
+      | ChangeRoute(route) => ReasonReact.Update(route)
       },
-    subscriptions: ({send}) => [
-      Sub(
-        () =>
-          ReasonReact.Router.watchUrl(url =>
-            send(ChangeUrl(url |> Config.urlToRoute))
-          ),
-        ReasonReact.Router.unwatchUrl,
-      ),
-    ],
-    render: ({state}) => children(~currentRoute=state.currentRoute),
+    render: self => children(~currentRoute=self.state),
   };
 };
 
 module Link = {
   let component = ReasonReact.statelessComponent("Link");
-  let make = (~route, ~className="", children) => {
+  let make = (~href, ~className="", children) => {
     ...component,
-    render: self => {
-      let href = Config.routeToString(route);
-      ReasonReact.createDomElement(
-        "a",
-        ~props={
-          "className": className,
-          "href": href,
-          "onClick":
-            self.handle((event, _self) => {
-              ReactEventRe.Mouse.preventDefault(event);
-              ReasonReact.Router.push(href);
-            }),
-        },
-        children,
-      );
-    },
+    render: self =>
+      <a
+        href
+        className
+        onClick=(
+          self.handle((event, _self) => {
+            ReactEvent.Mouse.preventDefault(event);
+            ReasonReact.Router.push(href);
+          })
+        )>
+        ...children
+      </a>,
   };
 };
 
 module NavLink = {
   let component = ReasonReact.statelessComponent("NavLink");
-  let make = (~route, ~activeRoute=?, ~className=?, children) => {
+  let make = (~href, children) => {
     ...component,
     render: _self =>
       <WithRouter>
         ...(
-             (~currentRoute) => {
-               let activeRoute =
-                 switch (activeRoute) {
-                 | None => route
-                 | Some(route) => route
-                 };
-               let className =
-                 Cn.make([
-                   Cn.unwrap(className),
-                   Cn.ifTrue(activeRoute == currentRoute, "active"),
-                 ]);
-               <Link route className> ...children </Link>;
-             }
+             (~currentRoute) =>
+               <Link
+                 href className=(currentRoute.href == href ? "active" : "")>
+                 ...children
+               </Link>
            )
       </WithRouter>,
   };

@@ -1,133 +1,105 @@
-[%bs.raw {|require('../../../src/App.scss')|}];
-
+[@bs.val] external require : string => string = "";
 [@bs.val] [@bs.scope "performance"] external now : unit => float = "";
 
-type user = {
-  name: string,
-  email: string,
-};
+require("../../../src/App.scss");
 
-type nav = {
-  isOpen: bool,
-  isSwiping: ref(bool),
-  position: list((float, float)),
-  width: ref(float),
+type touches = {
+  first: option((float, float)),
+  last: option((float, float)),
 };
 
 type state = {
-  user,
-  nav,
+  isOpen: bool,
+  touches,
+  width: ref(float),
 };
 
 type action =
   | ToggleMenu(bool)
   | TouchStart(float)
   | TouchMove(float)
-  | TouchEnd(float);
+  | TouchEnd;
 
 let component = ReasonReact.reducerComponent("App");
 
-let make = (~currentRoute, _children) => {
+let make = (~currentRoute: Router.route, _children) => {
   ...component,
   initialState: () => {
-    user: {
-      name: "Person Name",
-      email: "person@email.com",
+    isOpen: false,
+    touches: {
+      first: None,
+      last: None,
     },
-    nav: {
-      isOpen: false,
-      isSwiping: ref(false),
-      position: [(0.0, 0.0)],
-      width: ref(0.0),
-    },
+    width: ref(0.0),
   },
-  willReceiveProps: self => {
-    ...self.state,
-    nav: {
-      ...self.state.nav,
-      isOpen: false,
-    },
-  },
+  willReceiveProps: self => {...self.state, isOpen: false},
   reducer: (action, state) =>
     switch (action) {
-    | ToggleMenu(isOpen) =>
-      ReasonReact.UpdateWithSideEffects(
-        {
-          ...state,
-          nav: {
-            ...state.nav,
-            isOpen,
-          },
-        },
-        (
-          _self =>
-            if (isOpen) {
-              %bs.raw
-              {| document.documentElement.style.overflow = "hidden"|};
-              /* ReactDOMRe.domElementToObj(documentElement)##style##overflow#="hidden"; */
-            } else {
-              %bs.raw
-              {| document.documentElement.style.overflow = ""|};
-              /* ReactDOMRe.domElementToObj(documentElement)##style##overflow#=""; */
-            }
-        ),
-      )
+    | ToggleMenu(isOpen) => ReasonReact.Update({...state, isOpen})
     | TouchStart(clientX) =>
-      if (state.nav.isOpen) {
-        state.nav.isSwiping := true;
-      };
-      ReasonReact.Update({
-        ...state,
-        nav: {
-          ...state.nav,
-          position: [(clientX, now())],
-        },
-      });
-    | TouchMove(clientX) =>
-      if (state.nav.isSwiping^) {
+      if (state.isOpen) {
         ReasonReact.Update({
           ...state,
-          nav: {
-            ...state.nav,
-            position: [(clientX, now()), ...state.nav.position],
+          touches: {
+            first: Some((clientX, now())),
+            last: None,
           },
         });
       } else {
         ReasonReact.NoUpdate;
       }
-    | TouchEnd(clientX) =>
-      state.nav.isSwiping := false;
-      let velocity =
-        switch (state.nav.position) {
-        | [] => 0.0
-        | [_] => 0.0
-        | [(x', t'), (x, t), ..._] => (x' -. x) /. (t' -. t)
-        };
-      if (velocity < (-0.3)) {
-        ReasonReact.UpdateWithSideEffects(
-          state,
-          (self => self.send(ToggleMenu(false))),
-        );
-      } else if (clientX < state.nav.width^ /. 2.0) {
-        ReasonReact.UpdateWithSideEffects(
-          state,
-          (self => self.send(ToggleMenu(false))),
-        );
+    | TouchMove(clientX) =>
+      if (state.isOpen) {
+        ReasonReact.Update({
+          ...state,
+          touches: {
+            ...state.touches,
+            last: Some((clientX, now())),
+          },
+        });
       } else {
-        ReasonReact.Update(state);
-      };
+        ReasonReact.NoUpdate;
+      }
+    | TouchEnd =>
+      if (state.isOpen) {
+        let (x, t) =
+          Belt.Option.getWithDefault(state.touches.first, (0.0, 0.0));
+        let (x', t') =
+          Belt.Option.getWithDefault(state.touches.last, (0.0, 0.0));
+        let velocity = (x' -. x) /. (t' -. t);
+        let state = {
+          ...state,
+          touches: {
+            first: None,
+            last: None,
+          },
+        };
+        if (velocity < (-0.3) || x' < state.width^ /. 2.0) {
+          ReasonReact.UpdateWithSideEffects(
+            state,
+            (self => self.send(ToggleMenu(false))),
+          );
+        } else {
+          ReasonReact.Update(state);
+        };
+      } else {
+        ReasonReact.NoUpdate;
+      }
     },
-  render: self => {
-    let (x, _t) = List.hd(List.rev(self.state.nav.position));
-    let (x', _t') = List.hd(self.state.nav.position);
+  render: self =>
     <div
-      className=("App" ++ (self.state.nav.isOpen ? " overlay" : ""))
-      onClick=(_event => self.send(ToggleMenu(false)))
+      className=("App" ++ (self.state.isOpen ? " overlay" : ""))
+      onClick=(
+        _event =>
+          if (self.state.isOpen) {
+            self.send(ToggleMenu(false));
+          }
+      )
       onTouchStart=(
         event =>
           self.send(
             TouchStart(
-              Utils.TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX,
+              ReactEvent.Touch.changedTouches(event)##item(0)##clientX,
             ),
           )
       )
@@ -135,45 +107,29 @@ let make = (~currentRoute, _children) => {
         event =>
           self.send(
             TouchMove(
-              Utils.TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX,
+              ReactEvent.Touch.changedTouches(event)##item(0)##clientX,
             ),
           )
       )
-      onTouchEnd=(
-        event =>
-          self.send(
-            TouchEnd(
-              Utils.TouchList.first(ReactEventRe.Touch.changedTouches(event))##clientX,
-            ),
-          )
-      )>
+      onTouchEnd=(_event => self.send(TouchEnd))>
       <header>
         <a
           onClick=(
             event => {
-              ReactEventRe.Mouse.stopPropagation(event);
-              self.send(ToggleMenu(! self.state.nav.isOpen));
+              ReactEvent.Mouse.stopPropagation(event);
+              self.send(ToggleMenu(true));
             }
           )>
-          <svg viewBox="0 0 24 24">
-            <path
-              d="M21 11h-18c-0.6 0-1 0.4-1 1s0.4 1 1 1h18c0.6 0 1-0.4 1-1s-0.4-1-1-1z"
-            />
-            <path
-              d="M3 7h18c0.6 0 1-0.4 1-1s-0.4-1-1-1h-18c-0.6 0-1 0.4-1 1s0.4 1 1 1z"
-            />
-            <path
-              d="M21 17h-18c-0.6 0-1 0.4-1 1s0.4 1 1 1h18c0.6 0 1-0.4 1-1s-0.4-1-1-1z"
-            />
-          </svg>
+          <img src=(require("../../../src/img/icon/hamburger.svg")) />
         </a>
-        <h1> (ReasonReact.string(Config.routeToTitle(currentRoute))) </h1>
+        <h1> (ReasonReact.string(currentRoute.title)) </h1>
       </header>
       <nav
-        className=(self.state.nav.isOpen ? "active" : "")
-        onClick=(event => ReactEventRe.Mouse.stopPropagation(event))
+        className=(self.state.isOpen ? "active" : "")
+        onClick=(event => ReactEvent.Mouse.stopPropagation(event))
         style=(
-          self.state.nav.isSwiping^ ?
+          switch (self.state.touches) {
+          | {first: Some((x, _)), last: Some((x', _))} =>
             ReactDOMRe.Style.make(
               ~transform=
                 "translateX("
@@ -181,12 +137,13 @@ let make = (~currentRoute, _children) => {
                 ++ "0px)",
               ~transition="none",
               (),
-            ) :
-            ReactDOMRe.Style.make()
+            )
+          | _ => ReactDOMRe.Style.make()
+          }
         )
         ref=(
           self.handle((ref, self) =>
-            self.state.nav.width :=
+            self.state.width :=
               (
                 switch (Js.Nullable.toOption(ref)) {
                 | None => 0.0
@@ -197,25 +154,14 @@ let make = (~currentRoute, _children) => {
         )>
         <header>
           <a onClick=(_event => self.send(ToggleMenu(false)))>
-            <svg viewBox="0 0 32 32">
-              <path
-                d="M12.586 27.414l-10-10c-0.781-0.781-0.781-2.047 0-2.828l10-10c0.781-0.781 2.047-0.781 2.828 0s0.781 2.047 0 2.828l-6.586 6.586h19.172c1.105 0 2 0.895 2 2s-0.895 2-2 2h-19.172l6.586 6.586c0.39 0.39 0.586 0.902 0.586 1.414s-0.195 1.024-0.586 1.414c-0.781 0.781-2.047 0.781-2.828 0z"
-              />
-            </svg>
-            (ReasonReact.string(Config.routeToTitle(currentRoute)))
+            <img src=(require("../../../src/img/icon/arrow.svg")) />
+            (ReasonReact.string(currentRoute.title))
           </a>
-          <svg viewBox="0 0 32 32">
-            <path
-              d="M8 10c0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8s-8-3.582-8-8zM24 20h-16c-4.418 0-8 3.582-8 8v2h32v-2c0-4.418-3.582-8-8-8z"
-            />
-          </svg>
-          <p> (ReasonReact.string(self.state.user.name)) </p>
-          <p> (ReasonReact.string(self.state.user.email)) </p>
         </header>
         <label> (ReasonReact.string("home")) </label>
         <ul>
           <li>
-            <Router.NavLink route=Home>
+            <Router.NavLink href="/">
               (ReasonReact.string("Home"))
             </Router.NavLink>
           </li>
@@ -223,27 +169,34 @@ let make = (~currentRoute, _children) => {
         <label> (ReasonReact.string("pages")) </label>
         <ul>
           <li>
-            <Router.NavLink route=Page1>
+            <Router.NavLink href="/page1">
               (ReasonReact.string("Page1"))
             </Router.NavLink>
           </li>
           <li>
-            <Router.NavLink route=Page2>
+            <Router.NavLink href="/page2">
               (ReasonReact.string("Page2"))
             </Router.NavLink>
           </li>
           <li>
-            <Router.NavLink route=Page3>
+            <Router.NavLink href="/page3">
               (ReasonReact.string("Page3"))
             </Router.NavLink>
           </li>
         </ul>
       </nav>
       <main>
-        <ReactTransitionGroup.TransitionGroup>
-          (Config.routeToComponent(currentRoute))
-        </ReactTransitionGroup.TransitionGroup>
+        ReactTransitionGroup.(
+          <TransitionGroup>
+            <CSSTransition
+              key=currentRoute.title
+              _in=true
+              timeout=900
+              classNames="routeTransition">
+              currentRoute.component
+            </CSSTransition>
+          </TransitionGroup>
+        )
       </main>
-    </div>;
-  },
+    </div>,
 };
