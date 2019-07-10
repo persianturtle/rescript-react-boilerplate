@@ -1,8 +1,9 @@
-[%bs.raw {|require('../../../src/Index.scss')|}];
+%raw
+{| import "../../../src/Index.scss" |};
 
 ReactDOMRe.renderToElementWithId(
   <Router.WithRouter>
-    ...((~currentRoute) => <App currentRoute />)
+    ...{(~currentRoute) => <App currentRoute />}
   </Router.WithRouter>,
   "root",
 );

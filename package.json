@@ -13,7 +13,6 @@
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
-    "re-classnames": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-transition-group": "latest",
