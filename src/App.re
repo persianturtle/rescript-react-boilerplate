@@ -7,12 +7,9 @@ external removeEventListener: (string, unit => unit) => unit =
 
 %raw
 {|
-  import "../../../src/App.scss"
-  import "../../../src/ReactTransitionGroup.scss"
+  require("../../../src/App.scss")
+  require("../../../src/ReactTransitionGroup.scss")
 |};
-
-let hamburger = [%raw {|"../../../src/img/icon/hamburger.svg"|}];
-let arrow = [%raw {|"../../../src/img/icon/arrow.svg"|}];
 
 type touches = {
   first: option((float, float)),
@@ -131,7 +128,7 @@ let make = (~currentRoute: Router.route) => {
           ReactEvent.Mouse.stopPropagation(event);
           dispatch(ToggleMenu(true));
         }}>
-        <img src=hamburger />
+        <img src=[%raw {|require("../../../src/img/icon/hamburger.svg")|}] />
       </a>
       <h1> {ReasonReact.string(currentRoute.title)} </h1>
     </header>
@@ -155,7 +152,7 @@ let make = (~currentRoute: Router.route) => {
       ref={ReactDOMRe.Ref.domRef(navRef)}>
       <header>
         <a onClick={_event => dispatch(ToggleMenu(false))}>
-          <img src=arrow />
+          <img src=[%raw {|require("../../../src/img/icon/arrow.svg")|}] />
           {ReasonReact.string(currentRoute.title)}
         </a>
       </header>

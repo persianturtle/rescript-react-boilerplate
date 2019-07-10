@@ -1,5 +1,5 @@
 %raw
-{| import "../../../src/Index.scss" |};
+{| require("../../../src/Index.scss") |};
 
 ReactDOMRe.renderToElementWithId(
   <Router.WithRouter>
