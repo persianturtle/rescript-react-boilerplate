@@ -6,7 +6,7 @@
 
 - [styled-components](https://github.com/persianturtle/reason-app-shell-starter-kit)
 - [bs-css]()
-- [Sass]()
+- [Sass](https://github.com/persianturtle/reason-app-shell-starter-kit/tree/sass)
 
 # Description
 
@@ -23,7 +23,7 @@ This will start both `bsb` and `webpack-dev-server` (via the cross platform `npm
 
 ## Demo
 
-![Demo](/demo.gif?raw=true)
+![Demo](https://github.com/persianturtle/reason-app-shell-starter-kit/raw/master/demo.gif?raw=true)
 
 ## Tutorial
 
@@ -37,7 +37,7 @@ In my journey to Reason, I was searching for an example ReasonReact web app that
 
 - Routing via ReasonReact's Router (and thanks to [@thangngoc89](https://github.com/thangngoc89) for his excellent [gist example](https://gist.github.com/thangngoc89/c9162c0263df5427fe9a36fc7f94ac94))
 - Route transitions (via bindings to [ReactTransitionGroup](https://github.com/reactjs/react-transition-group))
-- A navigation that, when open, responds to touch&mdash;so you're free to use swiping gestures in your app
+- A navigation drawer that, when open, responds to touch&mdash;so you're free to use swiping gestures in your app
 - Simple, cross platform `bsb` & `webpack` configurations
 - [workbox](https://developers.google.com/web/tools/workbox/) for service worker generation
 - Multiple flavors of CSS depending (currently [styled-components](), [bs-css](), and [Sass]())

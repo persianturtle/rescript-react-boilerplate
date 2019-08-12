@@ -17,7 +17,7 @@ npm start
     </code></pre>
   <p>This will start both <code>bsb</code> and <code>webpack-dev-server</code> (via the cross platform <code>npm-run-all</code>).</p>
   <h2>Demo</h2>
-  <p><img src="/demo.gif?raw=true" alt="Demo" /></p>
+  <p><img src="https://github.com/persianturtle/reason-app-shell-starter-kit/raw/master/demo.gif?raw=true" alt="Demo" /></p>
   <h2>Tutorial</h2>
   <p><a href="https://itnext.io/a-reasonml-tutorial-building-an-app-shell-dd7cc617d0c5">Building an App Shell</a> (warning: this is somewhat out of date)</p>
   <h2>Motivation</h2>
