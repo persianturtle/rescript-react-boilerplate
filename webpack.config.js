@@ -12,10 +12,7 @@ module.exports = {
     filename: '[name].[chunkhash].js'
   },
   module: {
-    rules: [
-      { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
-      { test: /\.(png|jpg|svg)$/, use: 'url-loader' }
-    ]
+    rules: [{ test: /\.(png|jpg|svg)$/, use: 'url-loader' }]
   },
   plugins: [
     new HtmlWebpackPlugin({
