@@ -1,3 +1,25 @@
+let%macro.toplevel styled = (name: capIdent, element: string, css: string) => {
+  [%str
+    module Eval__name = {
+      let component = [%raw
+        {|
+          styled.$eval{element}`
+            $eval{css}
+          `
+        |}
+      ];
+      [@react.component]
+      let make = (~children) => {
+        React.createElementVariadic(
+          component,
+          makeProps(~children, ()),
+          [||],
+        );
+      };
+    }
+  ];
+};
+
 [@bs.val] [@bs.scope "performance"] external now: unit => float = "now";
 [@bs.val]
 external addEventListener: (string, unit => unit) => unit = "addEventListener";
@@ -80,47 +102,41 @@ module Wrapper = {
   };
 };
 
-module Header = {
-  let header = [%raw
-    {|
-      styled.header`
-        display: flex;
-        align-items: center;
-        height: 60px;
-        background-color: dodgerblue;
-        color: white;
-        box-shadow: 0 4px 5px 0 rgba(15, 74, 133, 0.14),
-          0 2px 9px 1px rgba(15, 74, 133, 0.12),
-          0 4px 2px -2px rgba(15, 74, 133, 0.2);
+%styled
+(
+  Header,
+  "header",
+  {|
+    display: flex;
+    align-items: center;
+    height: 60px;
+    background-color: dodgerblue;
+    color: white;
+    box-shadow: 0 4px 5px 0 rgba(15, 74, 133, 0.14),
+      0 2px 9px 1px rgba(15, 74, 133, 0.12),
+      0 4px 2px -2px rgba(15, 74, 133, 0.2);
 
-        > a {
-          display: flex;
-          align-items: center;
-          width: 32px;
-          height: 100%;
-          padding: 0 10px;
-          cursor: pointer;
+    > a {
+      display: flex;
+      align-items: center;
+      width: 32px;
+      height: 100%;
+      padding: 0 10px;
+      cursor: pointer;
 
-          > img {
-            width: 100%;
-            height: 100%;
-          }
-        }
+      > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
 
-        > h1 {
-          font-size: 26px;
-          line-height: 26px;
-          margin-left: 10px;
-        }
-      `
-    |}
-  ];
-
-  [@react.component]
-  let make = (~children) => {
-    React.createElementVariadic(header, makeProps(~children, ()), [||]);
-  };
-};
+    > h1 {
+      font-size: 26px;
+      line-height: 26px;
+      margin-left: 10px;
+    }
+  |},
+);
 
 module Nav = {
   let nav = [%raw

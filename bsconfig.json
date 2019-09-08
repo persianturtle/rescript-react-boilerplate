@@ -1,5 +1,6 @@
 {
   "name": "reason-carousel",
+  "ppx-flags": ["reason-macros-bin/ppx.js"],
   "reason": {
     "react-jsx": 3
   },

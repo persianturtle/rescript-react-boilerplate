@@ -16,6 +16,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-transition-group": "latest",
+    "reason-macros-bin": "^1.0.0-alpha.2",
     "reason-react": "latest",
     "styled-components": "latest"
   },
