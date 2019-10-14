@@ -2,7 +2,7 @@
 {|import styled, { css } from "styled-components"|};
 
 [@bs.obj]
-external componentProps:
+external scProps:
   (
     ~isOpen: bool,
     ~onClick: ReactEvent.Mouse.t => unit,
@@ -23,7 +23,7 @@ external componentProps:
   } =
   "";
 
-let component = [%raw
+let sc = [%raw
   {|
     styled.div`
       min-height: 100vh;

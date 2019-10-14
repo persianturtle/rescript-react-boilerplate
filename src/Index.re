@@ -2,7 +2,9 @@
 {| import { createGlobalStyle } from "styled-components" |};
 
 module GlobalStyles = {
-  let styles = [%raw
+  [@bs.obj] external scProps: unit => React.element = "";
+
+  let sc = [%raw
     {|
       createGlobalStyle`
         body {
@@ -25,16 +27,11 @@ module GlobalStyles = {
       `
     |}
   ];
-
-  [@react.component]
-  let make = () => {
-    React.createElementVariadic(styles, makeProps(), [||]);
-  };
 };
 
 ReactDOMRe.renderToElementWithId(
   <>
-    <GlobalStyles />
+    <GlobalStyles.sc />
     <Router.WithRouter>
       ...{(~currentRoute) => <App currentRoute />}
     </Router.WithRouter>

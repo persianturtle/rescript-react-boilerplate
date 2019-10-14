@@ -2,11 +2,11 @@
 {|import styled, {css} from 'styled-components'|};
 
 [@bs.obj]
-external componentProps:
+external scProps:
   (~children: React.element, unit) => {. "children": React.element} =
   "";
 
-let component = [%bs.raw
+let sc = [%bs.raw
   {|
     styled.header`
       display: flex;

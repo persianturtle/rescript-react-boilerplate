@@ -96,7 +96,7 @@ let make = (~currentRoute: Router.route) => {
     Some(() => removeEventListener("popstate", handler));
   });
 
-  <Wrapper.component
+  <Wrapper.sc
     isOpen={state.isOpen}
     onClick={_event =>
       if (state.isOpen) {
@@ -116,7 +116,7 @@ let make = (~currentRoute: Router.route) => {
       )
     }
     onTouchEnd={_event => dispatch(TouchEnd)}>
-    <Header.component>
+    <Header.sc>
       <a
         onClick={event => {
           ReactEvent.Mouse.stopPropagation(event);
@@ -125,8 +125,8 @@ let make = (~currentRoute: Router.route) => {
         <img src=[%raw {|require("../../../src/img/icon/hamburger.svg")|}] />
       </a>
       <h1> {ReasonReact.string(currentRoute.title)} </h1>
-    </Header.component>
-    <Nav.component
+    </Header.sc>
+    <Nav.sc
       isOpen={state.isOpen}
       onClick={event => ReactEvent.Mouse.stopPropagation(event)}
       style={
@@ -176,7 +176,7 @@ let make = (~currentRoute: Router.route) => {
           </Router.NavLink>
         </li>
       </ul>
-    </Nav.component>
+    </Nav.sc>
     <main>
       ReactTransitionGroup.(
         <TransitionGroup>
@@ -190,5 +190,5 @@ let make = (~currentRoute: Router.route) => {
         </TransitionGroup>
       )
     </main>
-  </Wrapper.component>;
+  </Wrapper.sc>;
 };

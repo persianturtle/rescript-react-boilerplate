@@ -2,7 +2,7 @@
 {|import styled, {css} from 'styled-components'|};
 
 [@bs.obj]
-external componentProps:
+external scProps:
   (
     ~isOpen: bool,
     ~onClick: ReactEvent.Mouse.t => unit,
@@ -21,7 +21,7 @@ external componentProps:
   } =
   "";
 
-let component = [%raw
+let sc = [%raw
   {|
     styled.nav`
       transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
