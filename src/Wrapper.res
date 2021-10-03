@@ -1,31 +1,25 @@
-%raw
-{|import styled, { css } from "styled-components"|};
+%%raw(`import styled, { css } from "styled-components"`)
 
-[@bs.obj]
-external scProps:
-  (
-    ~isOpen: bool,
-    ~onClick: ReactEvent.Mouse.t => unit,
-    ~onTouchStart: ReactEvent.Touch.t => unit,
-    ~onTouchMove: ReactEvent.Touch.t => unit,
-    ~onTouchEnd: ReactEvent.Touch.t => unit,
-    ~children: React.element,
-    unit
-  ) =>
-  {
-    .
-    "isOpen": bool,
-    "onClick": ReactEvent.Mouse.t => unit,
-    "onTouchStart": ReactEvent.Touch.t => unit,
-    "onTouchMove": ReactEvent.Touch.t => unit,
-    "onTouchEnd": ReactEvent.Touch.t => unit,
-    "children": React.element,
-  } =
-  "";
+@obj
+external scProps: (
+  ~isOpen: bool,
+  ~onClick: ReactEvent.Mouse.t => unit,
+  ~onTouchStart: ReactEvent.Touch.t => unit,
+  ~onTouchMove: ReactEvent.Touch.t => unit,
+  ~onTouchEnd: ReactEvent.Touch.t => unit,
+  ~children: React.element,
+  unit,
+) => {
+  "isOpen": bool,
+  "onClick": ReactEvent.Mouse.t => unit,
+  "onTouchStart": ReactEvent.Touch.t => unit,
+  "onTouchMove": ReactEvent.Touch.t => unit,
+  "onTouchEnd": ReactEvent.Touch.t => unit,
+  "children": React.element,
+} = ""
 
-let sc = [%raw
-  {|
-    styled.div`
+let sc = %raw(`
+    styled.div\`
       min-height: 100vh;
 
       &:after {
@@ -42,11 +36,11 @@ let sc = [%raw
         opacity: 0;
         z-index: 1;
 
-        ${props => props.isOpen && css`
+        \${props => props.isOpen && css\`
           transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
           transform: translateX(0%);
           opacity: 1;
-        `}
+        \`}
       }
 
       /* ReactTransitionGroup */
@@ -71,6 +65,5 @@ let sc = [%raw
       .routeTransition-exit.routeTransition-exit-active {
         animation: exit 400ms ease both;
       }
-    `
-  |}
-];
+    \`
+  `)

@@ -1,4 +1,4 @@
-let html = {|
+let html = `
   <h1>Now upgraded to use the Hooks API!</h1>
   <h1>ReasonReact App Shell Boilerplate</h1>
   <p>A simple example to help you get started building your <a href="https://reasonml.github.io/reason-react/">ReasonReact</a> web application. It's purposely kept small and simple to be easy to follow and change as needed.</p>
@@ -30,9 +30,7 @@ npm start
   <h2>Build for Production</h2>
   <pre><code class="sh language-sh">npm run build
   </code></pre>
-|};
+`
 
-[@react.component]
-let make = () => {
-  <div className="Home" dangerouslySetInnerHTML={"__html": html} />;
-};
+@react.component
+let make = () => <div className="Home" dangerouslySetInnerHTML={"__html": html} />

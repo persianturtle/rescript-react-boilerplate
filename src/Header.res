@@ -1,14 +1,10 @@
-%raw
-{|import styled, {css} from 'styled-components'|};
+%%raw(`import styled, {css} from 'styled-components'`)
 
-[@bs.obj]
-external scProps:
-  (~children: React.element, unit) => {. "children": React.element} =
-  "";
+@obj
+external scProps: (~children: React.element, unit) => {"children": React.element} = ""
 
-let sc = [%bs.raw
-  {|
-    styled.header`
+let sc = %raw(`
+    styled.header\`
       display: flex;
       align-items: center;
       height: 60px;
@@ -37,6 +33,5 @@ let sc = [%bs.raw
         line-height: 26px;
         margin-left: 10px;
       }
-    `
-  |}
-];
+    \`
+  `)

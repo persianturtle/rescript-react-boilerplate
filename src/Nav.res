@@ -1,29 +1,23 @@
-%raw
-{|import styled, {css} from 'styled-components'|};
+%%raw(`import styled, {css} from 'styled-components'`)
 
-[@bs.obj]
-external scProps:
-  (
-    ~isOpen: bool,
-    ~onClick: ReactEvent.Mouse.t => unit,
-    ~style: ReactDOMRe.style,
-    ~ref: ReactDOMRe.domRef,
-    ~children: React.element,
-    unit
-  ) =>
-  {
-    .
-    "isOpen": bool,
-    "onClick": ReactEvent.Mouse.t => unit,
-    "style": ReactDOMRe.style,
-    "ref": ReactDOMRe.domRef,
-    "children": React.element,
-  } =
-  "";
+@obj
+external scProps: (
+  ~isOpen: bool,
+  ~onClick: ReactEvent.Mouse.t => unit,
+  ~style: ReactDOM.style,
+  ~ref: ReactDOM.domRef,
+  ~children: React.element,
+  unit,
+) => {
+  "isOpen": bool,
+  "onClick": ReactEvent.Mouse.t => unit,
+  "style": ReactDOM.style,
+  "ref": ReactDOM.domRef,
+  "children": React.element,
+} = ""
 
-let sc = [%raw
-  {|
-    styled.nav`
+let sc = %raw(`
+    styled.nav\`
       transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
       position: absolute;
       top: 0;
@@ -36,9 +30,9 @@ let sc = [%raw
       overflow: auto;
       z-index: 2;
 
-      ${props => props.isOpen && css`
+      \${props => props.isOpen && css\`
         transform: translateX(0%);
-      `}
+      \`}
 
       > header {
         position: relative;
@@ -86,7 +80,7 @@ let sc = [%raw
           border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
           &:after {
-            content: url(${require("../../../src/img/icon/chevron.svg")});
+            content: url(\${require("../../../src/img/icon/chevron.svg")});
             position: absolute;
             top: 0;
             right: 15px;
@@ -124,6 +118,5 @@ let sc = [%raw
       @media only screen and (min-width: 768px) {
         width: 300px;
       }
-    `
-  |}
-];
+    \`
+  `)
