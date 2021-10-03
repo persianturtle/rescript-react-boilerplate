@@ -18,9 +18,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    new WorkboxPlugin.InjectManifest({
-      swSrc: './src/sw.js'
-    }),
+    //new WorkboxPlugin.InjectManifest({
+     // swSrc: './src/sw.js'
+    //}),
     new WebpackPwaManifest({
       name: 'App Shell Boilerplate',
       short_name: 'AppShell',

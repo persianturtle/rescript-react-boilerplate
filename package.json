@@ -3,32 +3,32 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npm-run-all --parallel start:*",
-    "start:bsb": "bsb -clean-world -make-world -w",
+    "start:bsb": "rescript build -w",
     "start:webpack": "webpack-dev-server",
     "build": "npm-run-all build:*",
-    "build:bsb": "bsb -clean-world -make-world",
+    "build:bsb": "rescript",
     "build:webpack": "NODE_ENV=production webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
-    "react": "latest",
-    "react-dom": "latest",
-    "react-transition-group": "latest",
-    "reason-react": "latest",
-    "styled-components": "latest"
+    "@rescript/react": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-transition-group": "*",
+    "styled-components": "*"
   },
   "devDependencies": {
-    "bs-platform": "latest",
-    "workbox-webpack-plugin": "latest",
-    "html-webpack-plugin": "latest",
-    "clean-webpack-plugin": "latest",
-    "webpack-pwa-manifest": "latest",
-    "webpack-dev-server": "latest",
-    "npm-run-all": "latest",
-    "url-loader": "latest",
-    "webpack": "latest",
-    "webpack-cli": "latest"
+    "rescript": "*",
+    "clean-webpack-plugin": "*",
+    "html-webpack-plugin": "*",
+    "npm-run-all": "*",
+    "url-loader": "*",
+    "webpack": "*",
+    "webpack-cli": "*",
+    "webpack-dev-server": "*",
+    "webpack-pwa-manifest": "*",
+    "workbox-webpack-plugin": "*"
   }
 }
