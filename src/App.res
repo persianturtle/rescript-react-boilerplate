@@ -24,12 +24,12 @@ type action =
 let make = () => {
   let url = RescriptReactRouter.useUrl()
   let title = switch url.path {
-        | list{} => "Home"
-        | list{"page1"} => "Page 1"
-        | list{"page2"} => "Page 2"
-        | list{"page3"} => "Page 3"
-        | _ => "404"
-        }
+  | list{} => "Home"
+  | list{"page1"} => "Page 1"
+  | list{"page2"} => "Page 2"
+  | list{"page3"} => "Page 3"
+  | _ => "404"
+  }
   let navRef = React.useRef(Js.Nullable.null)
   let width = switch Js.Nullable.toOption(navRef.current) {
   | None => 0.0
@@ -121,9 +121,7 @@ let make = () => {
         }}>
         <img src=%raw(`require("../../../src/img/icon/hamburger.svg")`) />
       </a>
-      <h1>
-        {title->React.string}
-      </h1>
+      <h1> {title->React.string} </h1>
     </Header.sc>
     <Nav.sc
       isOpen=state.isOpen
@@ -140,8 +138,7 @@ let make = () => {
       ref={ReactDOM.Ref.domRef(navRef)}>
       <header>
         <a onClick={_event => dispatch(ToggleMenu(false))}>
-          <img src=%raw(`require("../../../src/img/icon/arrow.svg")`) />
-          {title->React.string}
+          <img src=%raw(`require("../../../src/img/icon/arrow.svg")`) /> {title->React.string}
         </a>
       </header>
       <label> {React.string("home")} </label>
@@ -158,15 +155,13 @@ let make = () => {
         open ReactTransitionGroup
         <TransitionGroup>
           <CSSTransition key=title _in=true timeout=900 classNames="routeTransition">
-            {
-              switch url.path {
-        | list{} => <Home />
-        | list{"page1"} => <Page1 />
-        | list{"page2"} => <Page2 />
-        | list{"page3"} => <Page3 />
-        | _ => <Redirect to_= "/" />
-        }
-            }
+            {switch url.path {
+            | list{} => <Home />
+            | list{"page1"} => <Page1 />
+            | list{"page2"} => <Page2 />
+            | list{"page3"} => <Page3 />
+            | _ => <Redirect to_="/" />
+            }}
           </CSSTransition>
         </TransitionGroup>
       }
