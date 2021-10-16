@@ -21,7 +21,15 @@ type action =
   | TouchEnd
 
 @react.component
-let make = (~currentRoute: Router.route) => {
+let make = () => {
+  let url = RescriptReactRouter.useUrl()
+  let title = switch url.path {
+        | list{} => "Home"
+        | list{"page1"} => "Page 1"
+        | list{"page2"} => "Page 2"
+        | list{"page3"} => "Page 3"
+        | _ => "404"
+        }
   let navRef = React.useRef(Js.Nullable.null)
   let width = switch Js.Nullable.toOption(navRef.current) {
   | None => 0.0
@@ -113,7 +121,9 @@ let make = (~currentRoute: Router.route) => {
         }}>
         <img src=%raw(`require("../../../src/img/icon/hamburger.svg")`) />
       </a>
-      <h1> {React.string(currentRoute.title)} </h1>
+      <h1>
+        {title->React.string}
+      </h1>
     </Header.sc>
     <Nav.sc
       isOpen=state.isOpen
@@ -131,24 +141,32 @@ let make = (~currentRoute: Router.route) => {
       <header>
         <a onClick={_event => dispatch(ToggleMenu(false))}>
           <img src=%raw(`require("../../../src/img/icon/arrow.svg")`) />
-          {React.string(currentRoute.title)}
+          {title->React.string}
         </a>
       </header>
       <label> {React.string("home")} </label>
-      <ul> <li> <Router.NavLink href="/"> {React.string("Home")} </Router.NavLink> </li> </ul>
+      <ul> <li> <Link href="/" isNavLink=true> {React.string("Home")} </Link> </li> </ul>
       <label> {React.string("pages")} </label>
       <ul>
-        <li> <Router.NavLink href="/page1"> {React.string("Page1")} </Router.NavLink> </li>
-        <li> <Router.NavLink href="/page2"> {React.string("Page2")} </Router.NavLink> </li>
-        <li> <Router.NavLink href="/page3"> {React.string("Page3")} </Router.NavLink> </li>
+        <li> <Link href="/page1" isNavLink=true> {React.string("Page1")} </Link> </li>
+        <li> <Link href="/page2" isNavLink=true> {React.string("Page2")} </Link> </li>
+        <li> <Link href="/page3" isNavLink=true> {React.string("Page3")} </Link> </li>
       </ul>
     </Nav.sc>
     <main>
       {
         open ReactTransitionGroup
         <TransitionGroup>
-          <CSSTransition key=currentRoute.title _in=true timeout=900 classNames="routeTransition">
-            currentRoute.component
+          <CSSTransition key=title _in=true timeout=900 classNames="routeTransition">
+            {
+              switch url.path {
+        | list{} => <Home />
+        | list{"page1"} => <Page1 />
+        | list{"page2"} => <Page2 />
+        | list{"page3"} => <Page3 />
+        | _ => <Redirect to_= "/" />
+        }
+            }
           </CSSTransition>
         </TransitionGroup>
       }
