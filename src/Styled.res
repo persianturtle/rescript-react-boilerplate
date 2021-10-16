@@ -60,7 +60,7 @@ module Header = %styled.header(`
 `)
 
 module Nav = %styled.nav(
-  (~isOpen) => {
+  (~transform) => {
     `
     transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
     position: absolute;
@@ -71,6 +71,7 @@ module Nav = %styled.nav(
     box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.16), 0px 3px 10px 0 rgba(0, 0, 0, 0.23);
     overflow: auto;
     z-index: 2;
+    transform: $(transform);
 
     > header {
       position: relative;
@@ -118,7 +119,7 @@ module Nav = %styled.nav(
         border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
         &::after {
-          
+          content: url(/img/icon/chevron.svg);
           position: absolute;
           top: 0;
           right: 15px;

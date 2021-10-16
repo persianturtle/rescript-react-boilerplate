@@ -103,6 +103,8 @@ let make = () => {
   })
 
   <Styled.Wrapper
+  // TODO: Set the following styles on ::after when open
+  // "transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1); transform: translateX(0%); opacity: 1;"
     isOpen=state.isOpen
     onClick={_event =>
       if state.isOpen {
@@ -124,7 +126,10 @@ let make = () => {
       <h1> {title->React.string} </h1>
     </Styled.Header>
     <Styled.Nav
-      isOpen=state.isOpen
+    // TODO: Find a way to pass `isOpen` and have the CSS live within Styled.Nav
+    // TODO: When open, translateX should have calc(-100% - 10px) to account for box shadow
+    // TODO: Find a way to set the `style` prop for this styled component
+      transform={state.isOpen ? #translateX(#px(0)) : #translateX(#percent(-100.0))}
       onClick={event => ReactEvent.Mouse.stopPropagation(event)}
       ref={ReactDOM.Ref.domRef(navRef)}>
       <header>

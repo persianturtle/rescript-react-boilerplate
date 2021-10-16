@@ -1,5 +1,5 @@
 {
-  "name": "reason-carousel",
+  "name": "rescript-app-shell",
   "reason": {
     "react-jsx": 3
   },

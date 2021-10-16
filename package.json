@@ -1,5 +1,5 @@
 {
-  "name": "app-shell-starter-kit",
+  "name": "rescript-app-shell",
   "version": "1.0.0",
   "scripts": {
     "build": "sh scripts/build.sh",
