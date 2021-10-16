@@ -14,5 +14,6 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["@rescript/react"]
+  "bs-dependencies": ["@rescript/react", "bs-css", "bs-css-emotion"],
+  "ppx-flags": ["@davesnx/styled-ppx/ppx"]
 }

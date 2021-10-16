@@ -102,7 +102,7 @@ let make = () => {
     Some(() => removeEventListener("popstate", handler))
   })
 
-  <Wrapper.sc
+  <Styled.Wrapper
     isOpen=state.isOpen
     onClick={_event =>
       if state.isOpen {
@@ -113,7 +113,7 @@ let make = () => {
     onTouchMove={event =>
       dispatch(TouchMove(ReactEvent.Touch.changedTouches(event)["item"](0)["clientX"]))}
     onTouchEnd={_event => dispatch(TouchEnd)}>
-    <Header.sc>
+    <Styled.Header>
       <a
         onClick={event => {
           ReactEvent.Mouse.stopPropagation(event)
@@ -122,19 +122,10 @@ let make = () => {
         <img src=%raw(`require("../../../src/img/icon/hamburger.svg")`) />
       </a>
       <h1> {title->React.string} </h1>
-    </Header.sc>
-    <Nav.sc
+    </Styled.Header>
+    <Styled.Nav
       isOpen=state.isOpen
       onClick={event => ReactEvent.Mouse.stopPropagation(event)}
-      style={switch state.touches {
-      | {first: Some((x, _)), last: Some((x', _))} =>
-        ReactDOM.Style.make(
-          ~transform="translateX(" ++ (Js.Float.toString(x' -. x > 0.0 ? 0.0 : x' -. x) ++ "0px)"),
-          ~transition="none",
-          (),
-        )
-      | _ => ReactDOM.Style.make()
-      }}
       ref={ReactDOM.Ref.domRef(navRef)}>
       <header>
         <a onClick={_event => dispatch(ToggleMenu(false))}>
@@ -149,7 +140,7 @@ let make = () => {
         <li> <Link href="/page2" isNavLink=true> {React.string("Page2")} </Link> </li>
         <li> <Link href="/page3" isNavLink=true> {React.string("Page3")} </Link> </li>
       </ul>
-    </Nav.sc>
+    </Styled.Nav>
     <main>
       {
         open ReactTransitionGroup
@@ -166,5 +157,5 @@ let make = () => {
         </TransitionGroup>
       }
     </main>
-  </Wrapper.sc>
+  </Styled.Wrapper>
 }

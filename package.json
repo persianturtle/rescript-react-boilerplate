@@ -8,16 +8,18 @@
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
+    "@davesnx/styled-ppx": "*",
     "@rescript/react": "*",
     "react": "*",
     "react-dom": "*",
     "react-transition-group": "*",
-    "styled-components": "*"
+    "bs-css": "^14",
+    "bs-css-emotion": "^3"
   },
   "devDependencies": {
-    "rescript": "*",
     "chokidar": "*",
     "esbuild": "*",
-    "http-server": "*"
+    "http-server": "*",
+    "rescript": "*"
   }
 }
