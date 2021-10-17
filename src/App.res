@@ -133,10 +133,10 @@ let make = () => {
 
       ${state.isOpen
       ? `
-            transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateX(0%);
-            opacity: 1;
-          `
+          transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
+          transform: translateX(0%);
+          opacity: 1;
+        `
       : ""}
     }
 
@@ -338,7 +338,7 @@ let make = () => {
             | list{"page1"} => <Page1 />
             | list{"page2"} => <Page2 />
             | list{"page3"} => <Page3 />
-            | _ => <p> {React.string("404")} </p>
+            | _ => <Redirect to_="/" />
             }}
           </CSSTransition>
         </TransitionGroup>

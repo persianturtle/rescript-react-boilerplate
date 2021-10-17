@@ -1,36 +1,39 @@
 let html = `
-  <h1>Now upgraded to use the Hooks API!</h1>
-  <h1>ReasonReact App Shell Boilerplate</h1>
-  <p>A simple example to help you get started building your <a href="https://reasonml.github.io/reason-react/">ReasonReact</a> web application. It's purposely kept small and simple to be easy to follow and change as needed.</p>
+  <h1>Rescript React Boilerplate</h1>
+  <p>An opinionated implementation of the following technologies:</p>
+  <ul>
+    <li>ReScript & React</li>
+    <li>Simple routing using <a target="_blank" href="https://rescript-lang.org/docs/react/latest/router">ReScript's built in router</a></li>
+    <li>Emotion for CSS-in-JS (or check our the <a target="_blank" href="https://github.com/persianturtle/rescript-react-boilerplate/tree/sass">Sass branch</a>)</li>
+    <li>Quick and dirty route transitions via <a target="_blank" href="https://github.com/reactjs/react-transition-group">ReactTransitionGroup</a></li>
+    <li><a target="_blank" href="https://github.com/http-party/http-server">http-server</a> for a quick and easy development server</li>
+    <li>esbuild for fast bundling</li>
+  </ul>
   <h2>Getting Started</h2>
   <pre><code class="sh language-sh">npm install
 npm start
+open http://localhost:8081
   </code></pre>
-  <p>This will start both <code>bsb</code> and <code>webpack-dev-server</code> (via the cross platform <code>npm-run-all</code>).</p>
   <h2>Demo</h2>
-  <p><img src="/demo.gif?raw=true" alt="Demo" /></p>
+  <img src="/img/demo.gif" alt="Demo" />
   <h2>Tutorial</h2>
-  <p><a href="https://itnext.io/a-reasonml-tutorial-building-an-app-shell-dd7cc617d0c5">Building an App Shell</a></p>
-  <h2>Motivation</h2>
-  <p>In my journey to Reason, I was searching for an example ReasonReact web app that demonstrated how to set up things like routing and bsb/webpack configurations. I couldn't find any and decided to share this to help others on their journey.</p>
-  <h2>What's Inside</h2>
-  <ul>
-    <li>Routing (thanks to <a href="https://github.com/thangngoc89">@thangngoc89</a> for his excellent <a href="https://gist.github.com/thangngoc89/c9162c0263df5427fe9a36fc7f94ac94">gist example</a>)</li>
-    <li>Route transitions (via bindings to <a href="https://github.com/reactjs/react-transition-group">ReactTransitionGroup</a>)</li>
-    <li>A navigation that, when open, responds to touch&mdash;so you're free to use swiping gestures in your app</li>
-    <li>Simple, cross platform <code>bsb</code> &amp; <code>webpack</code> configurations</li>
-    <li><a href="https://developers.google.com/web/tools/workbox/"><code>workbox</code></a> for service worker generation</li>
-    <li>SASS</li>
-  </ul>
-  <h2>UI Inspiration</h2>
-  <ul>
-    <li><a href="https://flowdash.co/">Flow Dashboard</a></li>
-    <li><a href="https://material.angular.io/components/categories">Angular Material</a></li>
-  </ul>
-  <h2>Build for Production</h2>
-  <pre><code class="sh language-sh">npm run build
-  </code></pre>
+  <p>(Video overview coming soon)</p>
+  <h2>Development Environment</h2>
+  <p>Since we're using ReScript and esbuild, our build times are fast.</p>
+  <p>Because of this, we use <a target="_blank" href="https://github.com/paulmillr/chokidar">chokidar (a cross-platform file watcher)</a> to watch for changes and then rebuild the <code>dist</code> directory on every change. The <code>dist</code> directory is the same whether in development or in production.</p>
+  <p>The build should work on macOS, Windows & Linux.</p>
+  <img src="/img/start.png" alt="Example npm start output" />
 `
 
 @react.component
-let make = () => <div className="Home" dangerouslySetInnerHTML={"__html": html} />
+let make = () =>
+  <div
+    className={Emotion.css(`
+      padding: 30px;
+
+      img {
+        max-width: 800px;
+      }
+    `)}
+    dangerouslySetInnerHTML={"__html": html}
+  />
