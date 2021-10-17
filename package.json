@@ -1,37 +1,25 @@
 {
-  "name": "app-shell-starter-kit",
+  "name": "rescript-react-boilerplate",
   "version": "1.0.0",
   "scripts": {
-    "start": "npm-run-all --parallel start:*",
-    "start:bsb": "bsb -clean-world -make-world -w",
-    "start:webpack": "webpack-dev-server",
-    "build": "npm-run-all build:*",
-    "build:bsb": "bsb -clean-world -make-world",
-    "build:webpack": "NODE_ENV=production webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node scripts/build.js",
+    "start": "node scripts/start.js",
+    "deploy": "npm run build && echo 'rescript-react-boilerplate.persianturtle.com' > dist/CNAME && gh-pages -d dist"
   },
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
-    "react": "latest",
-    "react-dom": "latest",
-    "react-transition-group": "latest",
-    "reason-react": "latest"
+    "@rescript/react": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-transition-group": "*"
   },
   "devDependencies": {
-    "bs-platform": "latest",
-    "css-loader": "latest",
-    "node-sass": "latest",
-    "sass-loader": "latest",
-    "style-loader": "latest",
-    "workbox-webpack-plugin": "latest",
-    "html-webpack-plugin": "latest",
-    "clean-webpack-plugin": "latest",
-    "webpack-pwa-manifest": "latest",
-    "webpack-dev-server": "latest",
-    "npm-run-all": "latest",
-    "url-loader": "latest",
-    "webpack": "latest",
-    "webpack-cli": "latest"
+    "esbuild-sass-plugin": "*",
+    "chokidar": "*",
+    "esbuild": "*",
+    "gh-pages": "*",
+    "http-server": "*",
+    "rescript": "*"
   }
 }

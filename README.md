@@ -1,48 +1,42 @@
-# What's New?
+# Rescript React Boilerplate
 
-- upgraded to use the Hooks API
+An opinionated implementation of the following technologies:
+
+- ReScript & React
+- Simple routing using [ReScript's built in router](https://rescript-lang.org/docs/react/latest/router)
+- Emotion for CSS-in-JS (or check our the [Sass branch](https://github.com/persianturtle/rescript-react-boilerplate/tree/sass))
+- Quick and dirty route transitions via [ReactTransitionGroup](https://github.com/reactjs/react-transition-group)
+- [http-server](https://github.com/http-party/http-server) for a quick and easy development server
+- [esbuild](https://esbuild.github.io/) for fast bundling
 
 # CSS Flavors
 
-- [styled-components](https://github.com/persianturtle/reason-app-shell-starter-kit)
-- [bs-css](https://github.com/persianturtle/reason-app-shell-starter-kit/tree/bs-css)
-- [Sass](https://github.com/persianturtle/reason-app-shell-starter-kit/tree/sass)
-
-# Description
-
-This project exists to provide a simple example to help you get started building your [ReasonReact](https://reasonml.github.io/reason-react/) web application. It's purposely kept small and simple to be easy to follow and change as needed.
+- [Emotion](https://github.com/persianturtle/rescript-react-boilerplate)
+- [styled-ppx](https://github.com/persianturtle/rescript-react-boilerplate/tree/styled-ppx) (coming soon)
+- [Sass](https://github.com/persianturtle/rescript-react-boilerplate/tree/sass)
 
 ## Getting Started
 
 ```sh
 npm install
 npm start
+open http://localhost:8081
 ```
-
-This will start both `bsb` and `webpack-dev-server` (via the cross platform `npm-run-all`).
 
 ## Demo
 
-![Demo](https://github.com/persianturtle/reason-app-shell-starter-kit/raw/master/demo.gif?raw=true)
+![Demo](https://github.com/persianturtle/rescript-react-boilerplate/blob/master/img/demo.gif)
 
 ## Tutorial
 
-[Building an App Shell](https://itnext.io/a-reasonml-tutorial-building-an-app-shell-dd7cc617d0c5) (warning: this is somewhat out of date)
+(Video overview coming soon)
 
-## Motivation
+## Development Environment
 
-In my journey to Reason, I was searching for an example ReasonReact web app that demonstrated how to set up things like routing and bsb/webpack configurations. I couldn't find any and decided to share this to help others on their journey.
+Since we're using ReScript and esbuild, our build times are fast.
 
-## What's Inside
+Because of this, we use [chokidar (a cross-platform file watcher)](https://github.com/paulmillr/chokidar) to watch for changes and then rebuild the `dist` directory on every change. The `dist` directory is the same whether in development or in production.
 
-- Routing via ReasonReact's Router (and thanks to [@thangngoc89](https://github.com/thangngoc89) for his excellent [gist example](https://gist.github.com/thangngoc89/c9162c0263df5427fe9a36fc7f94ac94))
-- Route transitions (via bindings to [ReactTransitionGroup](https://github.com/reactjs/react-transition-group))
-- A navigation drawer that, when open, responds to touch&mdash;so you're free to use swiping gestures in your app
-- Simple, cross platform `bsb` & `webpack` configurations
-- [workbox](https://developers.google.com/web/tools/workbox/) for service worker generation
-- Multiple flavors of CSS depending (currently [styled-components](https://github.com/persianturtle/reason-app-shell-starter-kit), [bs-css](https://github.com/persianturtle/reason-app-shell-starter-kit/tree/bs-css), and [Sass](https://github.com/persianturtle/reason-app-shell-starter-kit/tree/sass))
+The build should work on macOS, Windows & Linux.
 
-## UI Inspiration
-
-- [Flow Dashboard](https://flowdash.co/)
-- [Angular Material](https://material.angular.io/components/categories)
+![Demo](https://github.com/persianturtle/rescript-react-boilerplate/blob/master/img/start.png)
