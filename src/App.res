@@ -3,17 +3,17 @@
 
 module HamburgerIcon = {
   @module("../../../src/img/icon/hamburger.svg") @react.component
-  external make: () => React.element = "default"
+  external make: unit => React.element = "default"
 }
 
 module ArrowIcon = {
   @module("../../../src/img/icon/arrow.svg") @react.component
-  external make: () => React.element = "default"
+  external make: unit => React.element = "default"
 }
 
 module ChevronIcon = {
   @module("../../../src/img/icon/chevron.svg") @react.component
-  external make: () => React.element = "default"
+  external make: unit => React.element = "default"
 }
 
 type touches = {
@@ -131,6 +131,13 @@ let make = () => {
 
   let wrapper = `
     min-height: 100vh;
+
+    ${state.isOpen
+      ? `
+          height: 100vh;
+          overflow: hidden;
+        `
+      : ""}
 
     &::after {
       content: "";
@@ -329,17 +336,21 @@ let make = () => {
       onClick={event => ReactEvent.Mouse.stopPropagation(event)}
       ref={ReactDOM.Ref.domRef(navRef)}>
       <header>
-        <a onClick={_event => dispatch(ToggleMenu(false))}>
-          <ArrowIcon /> {title->React.string}
-        </a>
+        <a onClick={_event => dispatch(ToggleMenu(false))}> <ArrowIcon /> {title->React.string} </a>
       </header>
       <label> {React.string("home")} </label>
       <ul> <li> <Link href="/" isNavLink=true> {React.string("Home")} </Link> </li> </ul>
       <label> {React.string("pages")} </label>
       <ul>
-        <li> <Link href="/page1" isNavLink=true> {React.string("Page1")} </Link> <ChevronIcon /> </li>
-        <li> <Link href="/page2" isNavLink=true> {React.string("Page2")} </Link> <ChevronIcon /> </li>
-        <li> <Link href="/page3" isNavLink=true> {React.string("Page3")} </Link> <ChevronIcon /> </li>
+        <li>
+          <Link href="/page1" isNavLink=true> {React.string("Page1")} </Link> <ChevronIcon />
+        </li>
+        <li>
+          <Link href="/page2" isNavLink=true> {React.string("Page2")} </Link> <ChevronIcon />
+        </li>
+        <li>
+          <Link href="/page3" isNavLink=true> {React.string("Page3")} </Link> <ChevronIcon />
+        </li>
       </ul>
     </nav>
     <main>
