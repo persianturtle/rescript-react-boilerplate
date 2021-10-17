@@ -33,6 +33,10 @@ let make = () =>
 
       img {
         max-width: 800px;
+
+        @media (max-width: 767px) {
+          max-width: 100%;
+        }
       }
     `)}
     dangerouslySetInnerHTML={"__html": html}

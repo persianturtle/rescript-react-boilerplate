@@ -114,6 +114,20 @@ let make = () => {
     Some(() => window["removeEventListener"](. "popstate", handler))
   })
 
+  React.useEffect1(() => {
+    // disable scrolling when the nav is open
+    if state.isOpen {
+      window["document"]["documentElement"]["style"]["cssText"] = `
+        position: fixed;
+        overflow: hidden;
+      `
+    } else {
+      window["document"]["documentElement"]["style"]["cssText"] = ""
+    }
+
+    None
+  }, [state.isOpen])
+
   let keyframes = {
     "enter": Emotion.keyframes(`
       from {
@@ -131,13 +145,6 @@ let make = () => {
 
   let wrapper = `
     min-height: 100vh;
-
-    ${state.isOpen
-      ? `
-          height: 100vh;
-          overflow: hidden;
-        `
-      : ""}
 
     &::after {
       content: "";
@@ -189,7 +196,7 @@ let make = () => {
       padding: 0 10px;
       cursor: pointer;
 
-      > img {
+      > svg {
         width: 100%;
         height: 100%;
       }
@@ -204,7 +211,7 @@ let make = () => {
 
   let nav = `
     transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
@@ -327,7 +334,7 @@ let make = () => {
       style={switch state.touches {
       | {first: Some((x, _)), last: Some((x', _))} =>
         ReactDOM.Style.make(
-          ~transform="translateX(" ++ (Js.Float.toString(x' -. x > 0.0 ? 0.0 : x' -. x) ++ "0px)"),
+          ~transform=`translateX(${Js.Float.toString(x' -. x > 0.0 ? 0.0 : x' -. x)}px)`,
           ~transition="none",
           (),
         )
