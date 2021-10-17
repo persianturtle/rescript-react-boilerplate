@@ -16,8 +16,6 @@
     "react-transition-group": "*"
   },
   "devDependencies": {
-    "@babel/cli": "*",
-    "@babel/core": "*",
     "chokidar": "*",
     "esbuild": "*",
     "esbuild-plugin-svgr": "*",
