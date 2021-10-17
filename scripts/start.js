@@ -11,5 +11,17 @@ function build() {
 }
 
 function serve() {
-  process.spawn("npx", ["http-server", "-c-1", "--proxy", "http://localhost:8081?", "-p", "8081", "dist"], { stdio: "inherit", shell: true });
+  process.spawn(
+    "npx",
+    [
+      "http-server",
+      "-c-1",
+      "--proxy",
+      "http://localhost:8081?",
+      "-p",
+      "8081",
+      "dist",
+    ],
+    { stdio: "inherit", shell: true }
+  );
 }
