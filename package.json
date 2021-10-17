@@ -1,5 +1,5 @@
 {
-  "name": "rescript-app-shell",
+  "name": "rescript-react-boilerplate",
   "version": "1.0.0",
   "scripts": {
     "build": "sh scripts/build.sh",
@@ -13,13 +13,15 @@
     "react": "*",
     "react-dom": "*",
     "react-transition-group": "*",
-    "bs-css": "^14",
-    "bs-css-emotion": "^3"
+    "@emotion/css": "*"
   },
   "devDependencies": {
     "chokidar": "*",
     "esbuild": "*",
     "http-server": "*",
-    "rescript": "*"
+    "rescript": "*",
+    "@emotion/babel-preset-css-prop": "*",
+    "@babel/core": "*",
+    "@babel/cli": "*"
   }
 }

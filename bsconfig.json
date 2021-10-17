@@ -1,5 +1,5 @@
 {
-  "name": "rescript-app-shell",
+  "name": "rescript-react-boilerplate",
   "reason": {
     "react-jsx": 3
   },
@@ -14,6 +14,5 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["@rescript/react", "bs-css", "bs-css-emotion"],
-  "ppx-flags": ["@davesnx/styled-ppx/ppx"]
+  "bs-dependencies": ["@rescript/react"]
 }
