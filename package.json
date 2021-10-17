@@ -1,6 +1,5 @@
 {
   "name": "rescript-react-boilerplate",
-  "homepage": "https://persianturtle.github.io/rescript-react-boilerplate",
   "version": "1.0.0",
   "scripts": {
     "build": "sh scripts/build.sh",
@@ -20,7 +19,6 @@
   "devDependencies": {
     "@babel/cli": "*",
     "@babel/core": "*",
-    "@emotion/babel-preset-css-prop": "*",
     "chokidar": "*",
     "esbuild": "*",
     "gh-pages": "*",
