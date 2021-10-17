@@ -7,7 +7,10 @@ serve();
 chokidar.watch("src/**/*", { ignoreInitial: true }).on("all", build);
 
 function build() {
-  process.spawn("sh", ["scripts/build.sh"], { stdio: "inherit", shell: true });
+  process.spawn("node", ["scripts/build.js"], {
+    stdio: "inherit",
+    shell: true,
+  });
 }
 
 function serve() {
