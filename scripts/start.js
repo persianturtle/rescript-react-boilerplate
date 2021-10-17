@@ -11,6 +11,7 @@ function build() {
     stdio: "inherit",
     shell: true,
   });
+  console.log("\n");
 }
 
 function serve() {

@@ -9,7 +9,7 @@ process.spawnSync("cp", ["-r", "src/index.html", "img", "404.html", "dist"], {
   shell: true,
 });
 
-console.time("\u001b[1;32m ✨ ReScript");
+console.time("\x1b[32m ✨ ReScript\x1b[0m");
 const { status } = process.spawnSync("npx", ["rescript"], {
   stdio: "inherit",
   shell: true,
@@ -17,10 +17,10 @@ const { status } = process.spawnSync("npx", ["rescript"], {
 
 // Continue only if ReScript compiles successfully
 if (status === 0) {
-  console.timeEnd("\u001b[1;32m ✨ ReScript");
+  console.timeEnd("\x1b[32m ✨ ReScript\x1b[0m");
 
   (async () => {
-    console.time("\u001b[1;32m ⚡ esbuild");
+    console.time("\x1b[32m ⚡ esbuild\x1b[0m");
     await build({
       entryPoints: ["lib/es6/src/Index.bs.js"],
       outfile: "dist/app.js",
@@ -29,7 +29,7 @@ if (status === 0) {
       plugins: [svgrPlugin()],
     })
       .then((a) => {
-        console.timeEnd("\u001b[1;32m ⚡ esbuild");
+        console.timeEnd("\x1b[32m ⚡ esbuild\x1b[0m");
       })
       .catch(() => process.exit(1));
   })();
