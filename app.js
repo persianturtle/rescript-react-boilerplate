@@ -15,7 +15,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     <li>Emotion for CSS-in-JS (or check our the <a target="_blank" href="https://github.com/persianturtle/rescript-react-boilerplate/tree/sass">Sass branch</a>)</li>
     <li>Quick and dirty route transitions via <a target="_blank" href="https://github.com/reactjs/react-transition-group">ReactTransitionGroup</a></li>
     <li><a target="_blank" href="https://github.com/http-party/http-server">http-server</a> for a quick and easy development server</li>
-    <li>esbuild for fast bundling</li>
+    <li><a target="_blank" href="https://esbuild.github.io/">esbuild</a> for fast bundling</li>
   </ul>
   <h2>Getting Started</h2>
   <pre><code class="sh language-sh">npm install
@@ -65,10 +65,10 @@ open http://localhost:8081
       z-index: 1;
 
       `+(a.isOpen?`
-            transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateX(0%);
-            opacity: 1;
-          `:"")+`
+          transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
+          transform: translateX(0%);
+          opacity: 1;
+        `:"")+`
     }
 
     .routeTransition-enter.routeTransition-enter-active {
