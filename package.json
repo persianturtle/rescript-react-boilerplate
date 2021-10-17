@@ -4,7 +4,7 @@
   "scripts": {
     "build": "sh scripts/build.sh",
     "start": "node scripts/start.js",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && echo 'rescript-react-boilerplate.persianturtle.com' > dist/CNAME && gh-pages -d dist"
   },
   "author": "Raphael Rafatpanah",
   "license": "MIT",
