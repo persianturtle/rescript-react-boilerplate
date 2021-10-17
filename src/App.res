@@ -133,10 +133,10 @@ let make = () => {
 
       ${state.isOpen
       ? `
-            transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateX(0%);
-            opacity: 1;
-          `
+          transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
+          transform: translateX(0%);
+          opacity: 1;
+        `
       : ""}
     }
 
