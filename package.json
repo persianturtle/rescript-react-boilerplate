@@ -4,25 +4,27 @@
   "version": "1.0.0",
   "scripts": {
     "build": "sh scripts/build.sh",
-    "start": "node scripts/start.js"
+    "start": "node scripts/start.js",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
     "@davesnx/styled-ppx": "*",
+    "@emotion/css": "*",
     "@rescript/react": "*",
     "react": "*",
     "react-dom": "*",
-    "react-transition-group": "*",
-    "@emotion/css": "*"
+    "react-transition-group": "*"
   },
   "devDependencies": {
+    "@babel/cli": "*",
+    "@babel/core": "*",
+    "@emotion/babel-preset-css-prop": "*",
     "chokidar": "*",
     "esbuild": "*",
+    "gh-pages": "*",
     "http-server": "*",
-    "rescript": "*",
-    "@emotion/babel-preset-css-prop": "*",
-    "@babel/core": "*",
-    "@babel/cli": "*"
+    "rescript": "*"
   }
 }
