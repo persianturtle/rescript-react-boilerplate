@@ -7,10 +7,11 @@ serve();
 chokidar.watch("src/**/*", { ignoreInitial: true }).on("all", build);
 
 function build() {
-  process.spawn("node", ["scripts/build.js"], {
+  process.spawnSync("node", ["scripts/build.js"], {
     stdio: "inherit",
     shell: true,
   });
+  console.log("\n");
 }
 
 function serve() {
@@ -21,7 +22,7 @@ function serve() {
       "-c-1",
       "--proxy",
       "http://localhost:8081?",
-      "-p",
+      "--port",
       "8081",
       "dist",
     ],
