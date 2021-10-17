@@ -35,7 +35,7 @@ open http://localhost:8081
       padding: 30px;
 
       img {
-        max-width: 800px;
+        max-width: 700px;
 
         @media (max-width: 767px) {
           max-width: 100%;
