@@ -102,6 +102,20 @@ let make = () => {
     Some(() => window["removeEventListener"](. "popstate", handler))
   })
 
+  React.useEffect1(() => {
+    // disable scrolling when the nav is open
+    if state.isOpen {
+      window["document"]["documentElement"]["style"]["cssText"] = `
+        position: fixed;
+        overflow: hidden;
+      `
+    } else {
+      window["document"]["documentElement"]["style"]["cssText"] = ""
+    }
+
+    None
+  }, [state.isOpen])
+
   <div
     className={`App ${state.isOpen ? "overlay" : ""}`}
     onClick={_event =>
@@ -128,7 +142,7 @@ let make = () => {
       style={switch state.touches {
       | {first: Some((x, _)), last: Some((x', _))} =>
         ReactDOM.Style.make(
-          ~transform="translateX(" ++ (Js.Float.toString(x' -. x > 0.0 ? 0.0 : x' -. x) ++ "0px)"),
+          ~transform=`translateX(${Js.Float.toString(x' -. x > 0.0 ? 0.0 : x' -. x)}px)`,
           ~transition="none",
           (),
         )
