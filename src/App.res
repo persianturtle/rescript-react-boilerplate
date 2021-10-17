@@ -338,7 +338,7 @@ let make = () => {
             | list{"page1"} => <Page1 />
             | list{"page2"} => <Page2 />
             | list{"page3"} => <Page3 />
-            | _ => <Redirect to_="/" />
+            | _ => <p> {React.string("404")} </p>
             }}
           </CSSTransition>
         </TransitionGroup>
