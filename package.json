@@ -1,5 +1,5 @@
 {
-  "name": "app-shell-starter-kit",
+  "name": "rescript-react-boilerplate",
   "version": "1.0.0",
   "scripts": {
     "build": "sh scripts/build.sh",
@@ -8,16 +8,20 @@
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
+    "@davesnx/styled-ppx": "*",
     "@rescript/react": "*",
     "react": "*",
     "react-dom": "*",
     "react-transition-group": "*",
-    "styled-components": "*"
+    "@emotion/css": "*"
   },
   "devDependencies": {
-    "rescript": "*",
     "chokidar": "*",
     "esbuild": "*",
-    "http-server": "*"
+    "http-server": "*",
+    "rescript": "*",
+    "@emotion/babel-preset-css-prop": "*",
+    "@babel/core": "*",
+    "@babel/cli": "*"
   }
 }
