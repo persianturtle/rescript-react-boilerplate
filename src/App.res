@@ -103,7 +103,7 @@ let make = () => {
   })
 
   <div
-    className="App"
+    className={`App ${state.isOpen ? "overlay" : ""}`}
     onClick={_event =>
       if state.isOpen {
         dispatch(ToggleMenu(false))
