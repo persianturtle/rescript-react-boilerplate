@@ -8,56 +8,67 @@ function generateServiceWorker() {
   fs.writeFileSync(
     "dist/sw.js",
     `
-// Force the service worker to change if index.html changes
-const indexHash = "${hash(fs.readFileSync("dist/index.html"))}";
 const filesToCache = ${JSON.stringify(filesToCache)};
-const currentCacheName = "${name}-${hash(filesToCache.join(""))}";
+const currentCacheName = "${name}-${hash(
+      filesToCache.join("") + fs.readFileSync("dist/index.html")
+    )}";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches
-      .open(currentCacheName)
-      .then((cache) =>
-        cache.addAll(${JSON.stringify(filesToCache)})
-      )
+    caches.open(currentCacheName).then((cache) => cache.addAll(filesToCache))
   );
 });
 
 self.addEventListener("fetch", (event) => {
-  if (
-    filesToCache
-      .map((file) => self.location.protocol + "//" + self.location.host + file)
-      .includes(event.request.url)
-  ) {
-    return event.respondWith(caches.match(event.request));
-  }
+  event.respondWith(
+    (async () => {
+      const cachedResponse = await caches.match(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-  return fetch(event.request)
-});
+      try {
+        return (await event.preloadResponse) ?? (await fetch(event.request));
+      } catch (error) {
+        if (event.request.mode === "navigate") {
+          return caches.match("/");
+        }
 
-self.addEventListener("activate", async (event) => {
-  event.waitUntil(
-    caches
-      .keys()
-      .then((cacheNames) =>
-        Promise.all(
-          cacheNames
-            .filter(
-              (cacheName) =>
-                cacheName.startsWith("${name}") &&
-                cacheName !== currentCacheName
-            )
-            .map(cacheName => caches.delete(cacheName))
-        )
-      )
+        throw error;
+      }
+    })()
   );
 });
 
-self.addEventListener("message", event => {
+addEventListener("activate", (event) => {
+  event.waitUntil(
+    (async () => {
+      if (self.registration.navigationPreload) {
+        await self.registration.navigationPreload.enable();
+      }
+
+      return caches
+        .keys()
+        .then((cacheNames) =>
+          Promise.all(
+            cacheNames
+              .filter(
+                (cacheName) =>
+                  cacheName.startsWith("rescript-react-boilerplate") &&
+                  cacheName !== currentCacheName
+              )
+              .map((cacheName) => caches.delete(cacheName))
+          )
+        );
+    })()
+  );
+});
+
+self.addEventListener("message", (event) => {
   if (event.data.action === "skipWaiting") {
-    self.skipWaiting()
+    self.skipWaiting();
   }
-})
+});
     `
   );
 }
