@@ -16,6 +16,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     <li>Quick and dirty route transitions via <a target="_blank" href="https://github.com/reactjs/react-transition-group">ReactTransitionGroup</a></li>
     <li><a target="_blank" href="https://github.com/http-party/http-server">http-server</a> for a quick and easy development server</li>
     <li><a target="_blank" href="https://esbuild.github.io/">esbuild</a> for fast bundling</li>
+    <li>Automatically generated <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker">ServiceWorker</a> for rich offline experiences (here's a great <a target="_blank" href="in-depth course on the topic">https://classroom.udacity.com/courses/ud899</a>)</li>
   </ul>
   <h2>Getting Started</h2>
   <pre><code class="sh language-sh">npm install
