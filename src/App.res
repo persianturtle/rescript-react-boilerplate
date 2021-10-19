@@ -181,6 +181,7 @@ let make = () => {
   let header = `
     display: flex;
     align-items: center;
+    width: 100vw;
     height: 60px;
     background-color: dodgerblue;
     color: white;
