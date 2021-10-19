@@ -37,6 +37,50 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script src="/app.js"></script>
-  </body>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.addEventListener(
+          "controllerchange",
+          (event) => {
+            location.reload();
+          }
+        );
+
+        navigator.serviceWorker.register("/sw.js").then(checkForUpdates);
+
+        function checkForUpdates(register) {
+          if (!navigator.serviceWorker.controller) {
+            return;
+          }
+
+          if (register.waiting) {
+            if (confirm("Do you want to update?")) {
+              register.waiting.postMessage({ action: "skipWaiting" });
+            }
+            return;
+          }
+
+          if (register.installing) {
+            register.installing.addEventListener("statechange", (event) => {
+              if (register.installing.state === "installed") {
+                if (confirm("Do you want to update?")) {
+                  register.installing.postMessage({
+                    action: "skipWaiting",
+                  });
+                }
+              }
+            });
+
+            return;
+          }
+
+          register.addEventListener("updatefound", (event) => {
+            register.installing.addEventListener("statechange", (event) => {
+              checkForUpdates(register);
+            });
+          });
+        }
+      }
+    </script>
+  <script src="app-AHOLRMYQ.js"></script></body>
 </html>
