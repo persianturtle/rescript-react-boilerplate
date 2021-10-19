@@ -17,7 +17,7 @@ self.addEventListener("fetch", (event) => {
       }
 
       try {
-        return (await event.preloadResponse) ?? (await fetch(event.request));
+        return await fetch(event.request);
       } catch (error) {
         if (event.request.mode === "navigate") {
           return caches.match("/");
