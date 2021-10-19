@@ -1,6 +1,6 @@
 
-const filesToCache = ["/app-AHOLRMYQ.js","/favicon.ico","/img/demo.gif","/img/start.png","/"];
-const currentCacheName = "rescript-react-boilerplate-f58678b4d2f71556adee75a16d8c3302dfa5f80a1bcff8384173db7a178e501a";
+const filesToCache = ["/app-34DTPG3Q.js","/favicon.ico","/img/demo.gif","/img/start.png","/"];
+const currentCacheName = "rescript-react-boilerplate-8226664a7343ff1bd257412324e87959ad5be2076d74d9af99a231b865ac8592";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -17,7 +17,7 @@ self.addEventListener("fetch", (event) => {
       }
 
       try {
-        return (await event.preloadResponse) ?? (await fetch(event.request));
+        return await fetch(event.request);
       } catch (error) {
         if (event.request.mode === "navigate") {
           return caches.match("/");
@@ -31,12 +31,8 @@ self.addEventListener("fetch", (event) => {
 
 addEventListener("activate", (event) => {
   event.waitUntil(
-    (async () => {
-      if (self.registration.navigationPreload) {
-        await self.registration.navigationPreload.enable();
-      }
-
-      return caches
+    (async () =>
+      caches
         .keys()
         .then((cacheNames) =>
           Promise.all(
@@ -48,8 +44,7 @@ addEventListener("activate", (event) => {
               )
               .map((cacheName) => caches.delete(cacheName))
           )
-        );
-    })()
+        ))()
   );
 });
 

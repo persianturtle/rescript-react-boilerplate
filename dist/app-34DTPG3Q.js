@@ -16,6 +16,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     <li>Quick and dirty route transitions via <a target="_blank" href="https://github.com/reactjs/react-transition-group">ReactTransitionGroup</a></li>
     <li><a target="_blank" href="https://github.com/http-party/http-server">http-server</a> for a quick and easy development server</li>
     <li><a target="_blank" href="https://esbuild.github.io/">esbuild</a> for fast bundling</li>
+    <li>Automatically generated <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker">ServiceWorker</a> for rich offline experiences (here's a great <a target="_blank" href="in-depth course on the topic">https://classroom.udacity.com/courses/ud899</a>)</li>
   </ul>
   <h2>Getting Started</h2>
   <pre><code class="sh language-sh">npm install
@@ -185,6 +186,7 @@ open http://localhost:8081
   `,S=a.touches,_=S.first,x,p=0;if(_!==void 0){var c=S.last;if(c!==void 0){var f=c[0],m=_[0];x={transition:"none",transform:"translateX("+(f-m>0?0:f-m).toString()+"px)"}}else p=1}else p=1;p===1&&(x={});var v=t.path,C,w=0;if(v)switch(v.hd){case"page1":v.tl?w=1:C=P.createElement(Cp,{});break;case"page2":v.tl?w=1:C=P.createElement(Np,{});break;case"page3":v.tl?w=1:C=P.createElement(Rp,{});break;default:w=1}else C=P.createElement(kp,{});return w===1&&(C=P.createElement(Lp,{to_:"/"})),P.createElement("div",{className:Tn(g),onClick:function(y){if(a.isOpen)return Se(s,{TAG:0,_0:!1})},onTouchEnd:function(y){return Se(s,0)},onTouchMove:function(y){return Se(s,{TAG:2,_0:y.changedTouches.item(0).clientX})},onTouchStart:function(y){return Se(s,{TAG:1,_0:y.changedTouches.item(0).clientX})}},P.createElement("header",{className:Tn(`
     display: flex;
     align-items: center;
+    width: 100vw;
     height: 60px;
     background-color: dodgerblue;
     color: white;
