@@ -1,6 +1,6 @@
 
-const filesToCache = ["/app-NAAHQ656.js","/favicon.ico","/img/demo.gif","/img/start.png","/"];
-const currentCacheName = "rescript-react-boilerplate-907a2a2928afb0cb731296dcfa009c92834946cba5f0c03acd64438d6d738f9a";
+const filesToCache = ["/app-AVKB5DUS.js","/favicon.ico","/img/demo.gif","/img/start.png","/"];
+const currentCacheName = "rescript-react-boilerplate-3b22d2353c19a080ef67b225def691542f0f9d9fae3ce1bcc6385b5f044955b8";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

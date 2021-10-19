@@ -103,6 +103,7 @@ open http://localhost:8081
     > header {
       position: relative;
       background-color: lavender;
+      width: 100vw;
       height: 150px;
       margin: 0;
 
