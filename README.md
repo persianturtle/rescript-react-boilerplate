@@ -8,6 +8,7 @@ An opinionated implementation of the following technologies:
 - Quick and dirty route transitions via [ReactTransitionGroup](https://github.com/reactjs/react-transition-group)
 - [http-server](https://github.com/http-party/http-server) for a quick and easy development server
 - [esbuild](https://esbuild.github.io/) for fast bundling
+- Automatically generated [ServiceWorker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker) for rich offline experiences (here's a great [in-depth course on the topic](https://classroom.udacity.com/courses/ud899))
 
 # CSS Flavors
 

@@ -28,7 +28,7 @@ self.addEventListener("fetch", (event) => {
       }
 
       try {
-        return (await event.preloadResponse) ?? (await fetch(event.request));
+        return await fetch(event.request);
       } catch (error) {
         if (event.request.mode === "navigate") {
           return caches.match("/");
@@ -42,12 +42,8 @@ self.addEventListener("fetch", (event) => {
 
 addEventListener("activate", (event) => {
   event.waitUntil(
-    (async () => {
-      if (self.registration.navigationPreload) {
-        await self.registration.navigationPreload.enable();
-      }
-
-      return caches
+    (async () =>
+      caches
         .keys()
         .then((cacheNames) =>
           Promise.all(
@@ -59,8 +55,7 @@ addEventListener("activate", (event) => {
               )
               .map((cacheName) => caches.delete(cacheName))
           )
-        );
-    })()
+        ))()
   );
 });
 
