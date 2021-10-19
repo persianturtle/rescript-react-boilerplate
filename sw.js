@@ -31,12 +31,7 @@ self.addEventListener("fetch", (event) => {
 
 addEventListener("activate", (event) => {
   event.waitUntil(
-    (async () => {
-      if (self.registration.navigationPreload) {
-        await self.registration.navigationPreload.enable();
-      }
-
-      return caches
+    (async () => caches
         .keys()
         .then((cacheNames) =>
           Promise.all(
@@ -49,7 +44,7 @@ addEventListener("activate", (event) => {
               .map((cacheName) => caches.delete(cacheName))
           )
         );
-    })()
+    )()
   );
 });
 
