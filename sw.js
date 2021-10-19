@@ -31,7 +31,8 @@ self.addEventListener("fetch", (event) => {
 
 addEventListener("activate", (event) => {
   event.waitUntil(
-    (async () => caches
+    (async () =>
+      caches
         .keys()
         .then((cacheNames) =>
           Promise.all(
@@ -43,8 +44,7 @@ addEventListener("activate", (event) => {
               )
               .map((cacheName) => caches.delete(cacheName))
           )
-        );
-    )()
+        ))()
   );
 });
 
