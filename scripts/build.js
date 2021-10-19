@@ -8,7 +8,7 @@ process.spawnSync("rm", ["-rf", "dist"], { stdio: "inherit", shell: true });
 process.spawnSync("mkdir", ["dist"], { stdio: "inherit", shell: true });
 process.spawnSync(
   "cp",
-  ["-r", "src/index.html", "src/img/favicon.ico", "img", "404.html", "dist"],
+  ["-r", "src/index.html", "src/img/favicon.ico", "img", "dist"],
   {
     stdio: "inherit",
     shell: true,
