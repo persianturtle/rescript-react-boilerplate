@@ -1,6 +1,7 @@
-const fs = require("fs");
-const crypto = require("crypto");
-const { name } = require("../package.json");
+import fs from "fs";
+import crypto from "crypto";
+
+const { name } = JSON.parse(fs.readFileSync("./package.json"));
 
 function generateServiceWorker() {
   const filesToCache = getFiles("dist");
@@ -83,4 +84,4 @@ function hash(string) {
   return crypto.createHash("sha256").update(string, "utf8").digest("hex");
 }
 
-module.exports = generateServiceWorker;
+export default generateServiceWorker;

@@ -1,8 +1,8 @@
-const process = require("child_process");
-const { build } = require("esbuild");
-const svgrPlugin = require("esbuild-plugin-svgr");
-const generateServiceWorker = require("./generateServiceWorker.js");
-const injectScript = require("./injectScript.js");
+import process from "child_process";
+import { build } from "esbuild";
+import svgrPlugin from "esbuild-plugin-svgr";
+import generateServiceWorker from "./generateServiceWorker.js";
+import injectScript from "./injectScript.js";
 
 process.spawnSync("rm", ["-rf", "dist"], { stdio: "inherit", shell: true });
 process.spawnSync("mkdir", ["dist"], { stdio: "inherit", shell: true });

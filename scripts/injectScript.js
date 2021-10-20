@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 function injectScript() {
   const fileName = fs
@@ -12,4 +12,4 @@ function injectScript() {
   fs.writeFileSync("dist/index.html", file, "utf-8");
 }
 
-module.exports = injectScript;
+export default injectScript;
