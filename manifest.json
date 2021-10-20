@@ -1,0 +1,15 @@
+{
+  "name": "ReScript React Boilerplate",
+  "short_name": "rescript-react-boilerplate",
+  "start_url": ".",
+  "display": "fullscreen",
+  "background_color": "#fff",
+  "description": "A ReScript React boilerplate project.",
+  "icons": [
+    {
+      "src": "img/rescript.svg",
+      "sizes": "any",
+      "type": "image/svg"
+    }
+  ]
+}
