@@ -2,17 +2,17 @@
 @val external require: string => string = "require"
 
 module HamburgerIcon = {
-  @module("../../../src/img/icon/hamburger.svg") @react.component
+  @module("../../../img/icon/hamburger.svg") @react.component
   external make: unit => React.element = "default"
 }
 
 module ArrowIcon = {
-  @module("../../../src/img/icon/arrow.svg") @react.component
+  @module("../../../img/icon/arrow.svg") @react.component
   external make: unit => React.element = "default"
 }
 
 module ChevronIcon = {
-  @module("../../../src/img/icon/chevron.svg") @react.component
+  @module("../../../img/icon/chevron.svg") @react.component
   external make: unit => React.element = "default"
 }
 

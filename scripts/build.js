@@ -8,12 +8,16 @@ process.spawnSync("rm", ["-rf", "dist"], { stdio: "inherit", shell: true });
 process.spawnSync("mkdir", ["dist"], { stdio: "inherit", shell: true });
 process.spawnSync(
   "cp",
-  ["-r", "src/index.html", "src/img/favicon.ico", "img", "dist"],
+  ["-r", "src/index.html", "src/manifest.json", "img", "dist"],
   {
     stdio: "inherit",
     shell: true,
   }
 );
+process.spawnSync("mv", ["dist/img/favicon.ico", "dist"], {
+  stdio: "inherit",
+  shell: true,
+});
 
 console.time("\x1b[32m ✨ ReScript\x1b[0m");
 const { status } = process.spawnSync("npx", ["rescript"], {

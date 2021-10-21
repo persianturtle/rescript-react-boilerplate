@@ -4,8 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "node scripts/build.js",
-    "start": "node scripts/start.js",
-    "deploy": "npm run build && echo 'rescript-react-boilerplate.persianturtle.com' > dist/CNAME && gh-pages -d dist"
+    "start": "node scripts/start.js"
   },
   "author": "Raphael Rafatpanah",
   "license": "MIT",
@@ -20,7 +19,6 @@
     "chokidar": "*",
     "esbuild": "*",
     "esbuild-plugin-svgr": "*",
-    "gh-pages": "*",
     "http-server": "*",
     "rescript": "*"
   }
