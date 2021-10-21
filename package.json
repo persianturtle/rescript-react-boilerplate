@@ -10,7 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "@emotion/css": "*",
-    "@rescript/react": "*",
     "react": "*",
     "react-dom": "*",
     "react-transition-group": "*"
@@ -20,6 +19,7 @@
     "esbuild": "*",
     "esbuild-plugin-svgr": "*",
     "http-server": "*",
-    "rescript": "*"
+    "rescript": "*",
+    "@rescript/react": "*"
   }
 }
