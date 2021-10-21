@@ -1,5 +1,4 @@
 @val external window: 'a = "window"
-@val external require: string => string = "require"
 
 module HamburgerIcon = {
   @module("../../../img/icon/hamburger.svg") @react.component
