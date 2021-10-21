@@ -7,11 +7,84 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>React App</title>
-    <link rel="stylesheet" href="/app.css" />
-  </head>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <meta name="mobile-wep-app-capable" content="yes" />
+    <meta name="apple-mobile-wep-app-capable" content="yes" />
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      html,
+      body {
+        overscroll-behavior: none;
+      }
+
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        margin: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-weight: normal;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      a {
+        cursor: pointer;
+      }
+    </style>
+  <link rel="stylesheet" href="app-UIJCRX67.css"></head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script src="/app.js"></script>
-  </body>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.addEventListener(
+          "controllerchange",
+          (event) => {
+            location.reload();
+          }
+        );
+
+        navigator.serviceWorker.register("/sw.js").then(checkForUpdates);
+
+        function checkForUpdates(register) {
+          if (!navigator.serviceWorker.controller) {
+            return;
+          }
+
+          if (register.waiting) {
+            if (confirm("Do you want to update?")) {
+              register.waiting.postMessage({ action: "skipWaiting" });
+            }
+            return;
+          }
+
+          if (register.installing) {
+            register.installing.addEventListener("statechange", (event) => {
+              if (register.installing.state === "installed") {
+                if (confirm("Do you want to update?")) {
+                  register.installing.postMessage({
+                    action: "skipWaiting",
+                  });
+                }
+              }
+            });
+
+            return;
+          }
+
+          register.addEventListener("updatefound", (event) => {
+            register.installing.addEventListener("statechange", (event) => {
+              checkForUpdates(register);
+            });
+          });
+        }
+      }
+    </script>
+  <script src="app-5ZJREIDK.js"></script></body>
 </html>
