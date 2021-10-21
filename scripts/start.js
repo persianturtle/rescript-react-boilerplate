@@ -1,5 +1,5 @@
-const process = require("child_process");
-const chokidar = require("chokidar");
+import process from "child_process";
+import chokidar from "chokidar";
 
 build();
 serve();

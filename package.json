@@ -1,25 +1,25 @@
 {
   "name": "rescript-react-boilerplate",
+  "type": "module",
   "version": "1.0.0",
   "scripts": {
     "build": "node scripts/build.js",
-    "start": "node scripts/start.js",
-    "deploy": "npm run build && echo 'rescript-react-boilerplate.persianturtle.com' > dist/CNAME && gh-pages -d dist"
+    "start": "node scripts/start.js"
   },
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
-    "@rescript/react": "*",
     "react": "*",
     "react-dom": "*",
     "react-transition-group": "*"
   },
   "devDependencies": {
-    "esbuild-sass-plugin": "*",
     "chokidar": "*",
     "esbuild": "*",
-    "gh-pages": "*",
+    "esbuild-plugin-svgr": "*",
+    "esbuild-sass-plugin": "*",
     "http-server": "*",
-    "rescript": "*"
+    "rescript": "*",
+    "@rescript/react": "*"
   }
 }

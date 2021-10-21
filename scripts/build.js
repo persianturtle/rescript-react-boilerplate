@@ -1,10 +1,22 @@
-const process = require("child_process");
-const { build } = require("esbuild");
-const { sassPlugin } = require("esbuild-sass-plugin");
+import process from "child_process";
+import { build } from "esbuild";
+import svgrPlugin from "esbuild-plugin-svgr";
+import { sassPlugin } from "esbuild-sass-plugin";
+import generateServiceWorker from "./generateServiceWorker.js";
+import injectScript from "./injectScript.js";
+import injectStyles from "./injectStyles.js";
 
 process.spawnSync("rm", ["-rf", "dist"], { stdio: "inherit", shell: true });
 process.spawnSync("mkdir", ["dist"], { stdio: "inherit", shell: true });
-process.spawnSync("cp", ["-r", "src/index.html", "img", "404.html", "dist"], {
+process.spawnSync(
+  "cp",
+  ["-r", "src/index.html", "src/manifest.json", "img", "dist"],
+  {
+    stdio: "inherit",
+    shell: true,
+  }
+);
+process.spawnSync("mv", ["dist/img/favicon.ico", "dist"], {
   stdio: "inherit",
   shell: true,
 });
@@ -23,15 +35,21 @@ if (status === 0) {
     console.time("\x1b[32m ⚡ esbuild\x1b[0m");
     await build({
       entryPoints: ["lib/es6/src/Index.bs.js"],
+      entryNames: "[name]-[hash]",
       outfile: "dist/app.js",
       minify: true,
       bundle: true,
-      loader: { ".svg": "file" },
-      plugins: [sassPlugin()],
+      plugins: [sassPlugin(), svgrPlugin()],
     })
-      .then((a) => {
+      .then(() => {
+        injectScript();
+        injectStyles();
+        generateServiceWorker();
         console.timeEnd("\x1b[32m ⚡ esbuild\x1b[0m");
       })
-      .catch(() => process.exit(1));
+      .catch((error) => {
+        console.log(error);
+        process.exit(1);
+      });
   })();
 }

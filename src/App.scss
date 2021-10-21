@@ -27,6 +27,7 @@
   > header {
     display: flex;
     align-items: center;
+    width: 100vw;
     height: 60px;
     background-color: dodgerblue;
     color: white;
@@ -89,7 +90,7 @@
         height: 40px;
         padding: 10px 20px;
 
-        > img {
+        > svg {
           width: 20px;
           height: 20px;
           margin-right: 20px;
@@ -117,8 +118,7 @@
         position: relative;
         border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
-        &:after {
-          content: url(./img/icon/chevron.svg);
+        svg {
           position: absolute;
           top: 0;
           right: 15px;
@@ -142,7 +142,7 @@
           }
         }
 
-        > img {
+        > svg {
           width: 15px;
           height: 15px;
         }
