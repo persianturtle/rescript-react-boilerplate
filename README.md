@@ -4,8 +4,8 @@ An opinionated implementation of the following technologies:
 
 - ReScript & React
 - Simple routing using [ReScript's built in router](https://rescript-lang.org/docs/react/latest/router)
-- Emotion for CSS-in-JS (or check our the [Sass branch](https://github.com/persianturtle/rescript-react-boilerplate/tree/sass))
 - Quick and dirty route transitions via [ReactTransitionGroup](https://github.com/reactjs/react-transition-group)
+- Choose between [Emotion](https://github.com/persianturtle/rescript-react-boilerplate), [Sass](https://github.com/persianturtle/rescript-react-boilerplate/tree/sass) or [styled-ppx](https://github.com/persianturtle/rescript-react-boilerplate/tree/styled-ppx) for styling
 - [http-server](https://github.com/http-party/http-server) for a quick and easy development server
 - [esbuild](https://esbuild.github.io/) for fast bundling
 - Automatically generated [ServiceWorker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker) for rich offline experiences (here's a great [in-depth course on the topic](https://classroom.udacity.com/courses/ud899))
@@ -13,7 +13,7 @@ An opinionated implementation of the following technologies:
 # CSS Flavors
 
 - [Emotion](https://github.com/persianturtle/rescript-react-boilerplate)
-- [styled-ppx](https://github.com/persianturtle/rescript-react-boilerplate/tree/styled-ppx) (coming soon)
+- [styled-ppx](https://github.com/persianturtle/rescript-react-boilerplate/tree/styled-ppx)
 - [Sass](https://github.com/persianturtle/rescript-react-boilerplate/tree/sass)
 
 ## Getting Started

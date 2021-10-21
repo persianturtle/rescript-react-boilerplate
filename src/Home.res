@@ -4,8 +4,8 @@ let html = `
   <ul>
     <li>ReScript & React</li>
     <li>Simple routing using <a target="_blank" href="https://rescript-lang.org/docs/react/latest/router">ReScript's built in router</a></li>
-    <li>Emotion for CSS-in-JS (or check our the <a target="_blank" href="https://github.com/persianturtle/rescript-react-boilerplate/tree/sass">Sass branch</a>)</li>
     <li>Quick and dirty route transitions via <a target="_blank" href="https://github.com/reactjs/react-transition-group">ReactTransitionGroup</a></li>
+    <li>Choose between <a target="_blank" href="https://github.com/persianturtle/rescript-react-boilerplate">Emotion</a>, <a target="_blank" href="https://github.com/persianturtle/rescript-react-boilerplate/tree/sass">Sass</a> or <a target="_blank" href="https://github.com/persianturtle/rescript-react-boilerplate/tree/styled-ppx">styled-ppx</a> for styling</li>
     <li><a target="_blank" href="https://github.com/http-party/http-server">http-server</a> for a quick and easy development server</li>
     <li><a target="_blank" href="https://esbuild.github.io/">esbuild</a> for fast bundling</li>
     <li>Automatically generated <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker">ServiceWorker</a> for rich offline experiences (here's a great <a target="_blank" href="https://classroom.udacity.com/courses/ud899">in-depth course on the topic</a>)</li>
@@ -27,18 +27,4 @@ open http://localhost:8081
 `
 
 @react.component
-let make = () =>
-  <div
-    className={Emotion.css(`
-      padding: 30px;
-
-      img {
-        max-width: 700px;
-
-        @media (max-width: 767px) {
-          max-width: 100%;
-        }
-      }
-    `)}
-    dangerouslySetInnerHTML={"__html": html}
-  />
+let make = () => <div className="Home" dangerouslySetInnerHTML={"__html": html} />

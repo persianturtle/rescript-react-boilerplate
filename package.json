@@ -9,17 +9,19 @@
   "author": "Raphael Rafatpanah",
   "license": "MIT",
   "dependencies": {
-    "@emotion/css": "*",
     "react": "*",
     "react-dom": "*",
     "react-transition-group": "*"
   },
   "devDependencies": {
     "chokidar": "*",
+    "bs-css": "^14",
+    "bs-css-emotion": "^3",
     "esbuild": "*",
     "esbuild-plugin-svgr": "*",
     "http-server": "*",
     "rescript": "*",
-    "@rescript/react": "*"
+    "@rescript/react": "*",
+    "@davesnx/styled-ppx": "*"
   }
 }
