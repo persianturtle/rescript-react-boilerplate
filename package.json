@@ -14,14 +14,14 @@
     "react-transition-group": "*"
   },
   "devDependencies": {
+    "@davesnx/styled-ppx": "^0.25.1-aa7725c.0",
+    "@rescript/react": "*",
+    "bs-css": "*",
+    "bs-css-emotion": "*",
     "chokidar": "*",
-    "bs-css": "^14",
-    "bs-css-emotion": "^3",
     "esbuild": "*",
     "esbuild-plugin-svgr": "*",
     "http-server": "*",
-    "rescript": "*",
-    "@rescript/react": "*",
-    "@davesnx/styled-ppx": "*"
+    "rescript": "*"
   }
 }

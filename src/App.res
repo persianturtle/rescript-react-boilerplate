@@ -153,17 +153,23 @@ let make = () => {
       <h1> {title->React.string} </h1>
     </Styled.Header>
     <Styled.Nav
-      transform={state.isOpen
-        ? switch state.touches {
-          | {first: Some((x, _)), last: Some((x', _))} =>
-            #translateX(#px((x' -. x > 0.0 ? 0.0 : x' -. x)->Belt.Float.toInt))
-          | _ => #translateX(#px(0))
-          }
-        : #translateX({
-            #calc(#sub, #percent(-100.0), #px(10))
-          })}
+      style={switch state.touches {
+      | {first: Some((x, _)), last: Some((x', _))} =>
+        ReactDOM.Style.make(
+          ~transform=`translateX(${Js.Float.toString(x' -. x > 0.0 ? 0.0 : x' -. x)}px)`,
+          ~transition="none",
+          (),
+        )
+      | _ =>
+        ReactDOM.Style.make(
+          ~transform={
+            state.isOpen ? "translateX(0)" : "translateX(calc(-100% - 10px))"
+          },
+          (),
+        )
+      }}
       onClick={event => ReactEvent.Mouse.stopPropagation(event)}
-      ref={ReactDOM.Ref.domRef(navRef)}>
+      innerRef={ReactDOM.Ref.domRef(navRef)}>
       <header>
         <a onClick={_event => dispatch(ToggleMenu(false))}> <ArrowIcon /> {title->React.string} </a>
       </header>

@@ -68,104 +68,99 @@ module Header = %styled.header(`
   }
 `)
 
-module Nav = %styled.nav(
-  (~transform) => {
-    `
-    transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    background-color: white;
-    box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.16),
-      0px 3px 10px 0 rgba(0, 0, 0, 0.23);
-    overflow: auto;
-    z-index: 2;
-    transform: $(transform);
+module Nav = %styled.nav(`
+  transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.16),
+    0px 3px 10px 0 rgba(0, 0, 0, 0.23);
+  overflow: auto;
+  z-index: 2;
 
-    > header {
+  > header {
+    position: relative;
+    background-color: lavender;
+    height: 150px;
+    margin: 0;
+
+    > a {
+      font-size: 24px;
+      line-height: 24px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding: 10px 20px;
+
+      > svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 20px;
+      }
+    }
+  }
+
+  > label {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 24px;
+    text-transform: uppercase;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.32);
+    color: white;
+    padding: 0 15px;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > li {
       position: relative;
-      background-color: lavender;
-      height: 150px;
-      margin: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
-      > a {
-        font-size: 24px;
-        line-height: 24px;
+      svg {
         position: absolute;
         top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        height: 40px;
-        padding: 10px 20px;
+        right: 15px;
+        bottom: 0;
+        margin: auto;
+        width: 15px;
+        height: 15px;
+      }
 
-        > svg {
-          width: 20px;
-          height: 20px;
-          margin-right: 20px;
+      > a {
+        transition: background-color 450ms cubic-bezier(0.23, 1, 0.32, 1);
+        font-size: 18px;
+        line-height: 54px;
+        text-decoration: none;
+        display: block;
+        padding: 0 15px;
+        color: black;
+
+        &.active {
+          background-color: #e9e9e9;
         }
       }
-    }
 
-    > label {
-      font-weight: normal;
-      font-size: 12px;
-      line-height: 24px;
-      text-transform: uppercase;
-      display: block;
-      background-color: rgba(0, 0, 0, 0.32);
-      color: white;
-      padding: 0 15px;
-    }
-
-    > ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-
-      > li {
-        position: relative;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-
-        svg {
-          position: absolute;
-          top: 0;
-          right: 15px;
-          bottom: 0;
-          margin: auto;
-          width: 15px;
-          height: 15px;
-        }
-
-        > a {
-          transition: background-color 450ms cubic-bezier(0.23, 1, 0.32, 1);
-          font-size: 18px;
-          line-height: 54px;
-          text-decoration: none;
-          display: block;
-          padding: 0 15px;
-          color: black;
-
-          &.active {
-            background-color: #e9e9e9;
-          }
-        }
-
-        > img {
-          width: 15px;
-          height: 15px;
-        }
+      > img {
+        width: 15px;
+        height: 15px;
       }
     }
-
-    @media (max-width: 767px) {
-      width: 85vw;
-    }
-
-    @media (min-width: 768px) {
-      width: 300px;
-    }
-  `
   }
-)
+
+  @media (max-width: 767px) {
+    width: 85vw;
+  }
+
+  @media (min-width: 768px) {
+    width: 300px;
+  }
+`)
